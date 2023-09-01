@@ -1,0 +1,414 @@
+{
+    "code": 200,
+    "message": "请求成功",
+    "results": {
+        "list": [
+            {
+                "uuid": 92598,
+                "name": null,
+                "b_folder": false,
+                "folder_id": null,
+                "last_browse": null,
+                "comic": {
+                    "uuid": "3cc07258-2daf-11eb-934c-00163e0ca5bd",
+                    "b_display": true,
+                    "name": "溫熱的銀蓮花",
+                    "path_word": "wenredeyinlianhua",
+                    "females": [],
+                    "males": [],
+                    "author": [
+                        {
+                            "name": "樱木莲",
+                            "path_word": "樱木莲"
+                        }
+                    ],
+                    "theme": [],
+                    "cover": "https://hi77-overseas.mangafuna.xyz/wenredeyinlianhua/cover/1658945762.jpg.328x422.jpg",
+                    "status": 0,
+                    "popular": 401738,
+                    "datetime_updated": "2023-08-05",
+                    "last_chapter_id": "b36ea9de-3355-11ee-bb29-d3d228a76de6",
+                    "last_chapter_name": "第29话"
+                }
+            },
+            {
+                "uuid": 107221,
+                "name": null,
+                "b_folder": false,
+                "folder_id": null,
+                "last_browse": null,
+                "comic": {
+                    "uuid": "f8b8e840-2d57-11ea-844b-00163e0ca5bd",
+                    "b_display": true,
+                    "name": "雖然很抱歉但我不是百合",
+                    "path_word": "suiranhenbaoqiandanwobushibaihe",
+                    "females": [],
+                    "males": [],
+                    "author": [
+                        {
+                            "name": "もちオーレ",
+                            "path_word": "もちオーレ"
+                        }
+                    ],
+                    "theme": [],
+                    "cover": "https://hi77-overseas.mangafuna.xyz/suiranhenbaoqiandanwobushibaihe/cover/1678776393.jpg.328x422.jpg",
+                    "status": 0,
+                    "popular": 597128,
+                    "datetime_updated": "2023-08-04",
+                    "last_chapter_id": "73fb8730-3234-11ee-bad4-d3d228a76de6",
+                    "last_chapter_name": "第24话"
+                }
+            },
+            {
+                "uuid": 86989,
+                "name": null,
+                "b_folder": false,
+                "folder_id": null,
+                "last_browse": {
+                    "last_browse_id": "27175612-6834-11ed-a740-024352452ce0",
+                    "last_browse_name": "第01話"
+                },
+                "comic": {
+                    "uuid": "1b8ba172-6834-11ed-a740-024352452ce0",
+                    "b_display": true,
+                    "name": "來做吧，精靈大姐姐",
+                    "path_word": "laizuobajinglingdajiejie",
+                    "females": [],
+                    "males": [],
+                    "author": [
+                        {
+                            "name": "茶菓山しん太 ",
+                            "path_word": "茶菓山しん太 "
+                        }
+                    ],
+                    "theme": [],
+                    "cover": "https://hi77-overseas.mangafuna.xyz/laizuobajinglingdajiejie/cover/1671203866.jpg.328x422.jpg",
+                    "status": 0,
+                    "popular": 1887034,
+                    "datetime_updated": "2023-08-02",
+                    "last_chapter_id": "7d91a4e2-3148-11ee-ba70-d3d228a76de6",
+                    "last_chapter_name": "第24話",
+                    "browse": {
+                        "comic_uuid": "1b8ba172-6834-11ed-a740-024352452ce0",
+                        "path_word": "laizuobajinglingdajiejie",
+                        "chapter_uuid": "27175612-6834-11ed-a740-024352452ce0",
+                        "chapter_name": "第01話"
+                    }
+                }
+            },
+            {
+                "uuid": 34681,
+                "name": null,
+                "b_folder": false,
+                "folder_id": null,
+                "last_browse": {
+                    "last_browse_id": "e84e7ae6-108a-11e9-89a0-024352452ce0",
+                    "last_browse_name": "第01话"
+                },
+                "comic": {
+                    "uuid": "c18a3d90-1086-11e9-899b-024352452ce0",
+                    "b_display": true,
+                    "name": "請為了我脫光身上所有衣服",
+                    "path_word": "qingweilewotuoguangshenshangsuoyouyifu",
+                    "females": [],
+                    "males": [],
+                    "author": [
+                        {
+                            "name": "九郎",
+                            "path_word": "九郎"
+                        }
+                    ],
+                    "theme": [],
+                    "cover": "https://hi77-overseas.mangafuna.xyz/qingweilewotuoguangshenshangsuoyouyifu/cover/1651423723.jpg.328x422.jpg",
+                    "status": 0,
+                    "popular": 746991,
+                    "datetime_updated": "2023-07-31",
+                    "last_chapter_id": "ad08cbae-2f06-11ee-b98b-d3d228a76de6",
+                    "last_chapter_name": "第54話",
+                    "browse": {
+                        "comic_uuid": "c18a3d90-1086-11e9-899b-024352452ce0",
+                        "path_word": "qingweilewotuoguangshenshangsuoyouyifu",
+                        "chapter_uuid": "e84e7ae6-108a-11e9-89a0-024352452ce0",
+                        "chapter_name": "第01话"
+                    }
+                }
+            },
+            {
+                "uuid": 106559,
+                "name": null,
+                "b_folder": false,
+                "folder_id": null,
+                "last_browse": null,
+                "comic": {
+                    "uuid": "5e517aba-5397-11ed-8ec0-024352452ce0",
+                    "b_display": true,
+                    "name": "歡迎來到異世界桑拿房！~小流奈想要身心舒泰~",
+                    "path_word": "huanyinglaidaoyishijiesangnafangxiaoliunaixiangyao",
+                    "females": [],
+                    "males": [],
+                    "author": [
+                        {
+                            "name": "佚名",
+                            "path_word": "佚名"
+                        }
+                    ],
+                    "theme": [],
+                    "cover": "https://hi77-overseas.mangafuna.xyz/huanyinglaidaoyishijiesangnafangxiaoliunaixiangyao/cover/1666614510.jpg.328x422.jpg",
+                    "status": 0,
+                    "popular": 2604,
+                    "datetime_updated": "2023-07-30",
+                    "last_chapter_id": "b5c0116a-2eae-11ee-b956-d3d228a76de6",
+                    "last_chapter_name": "第05話"
+                }
+            },
+            {
+                "uuid": 105876,
+                "name": null,
+                "b_folder": false,
+                "folder_id": null,
+                "last_browse": {
+                    "last_browse_id": "f3ff9cb4-2dbb-11ee-b8ed-d3d228a76de6",
+                    "last_browse_name": "第13话"
+                },
+                "comic": {
+                    "uuid": "6694c9ac-29d4-11ee-b79e-d3d228a76de6",
+                    "b_display": true,
+                    "name": "和機器人啪啪啪能算在經驗次數里嗎？",
+                    "path_word": "hjqrpppnszjycslm",
+                    "females": [],
+                    "males": [],
+                    "author": [
+                        {
+                            "name": "焼肉定食",
+                            "path_word": "焼肉定食"
+                        }
+                    ],
+                    "theme": [],
+                    "cover": "https://hi77-overseas.mangafuna.xyz/hjqrpppnszjycslm/cover/1690172113.jpg.328x422.jpg",
+                    "status": 0,
+                    "popular": 817946,
+                    "datetime_updated": "2023-07-29",
+                    "last_chapter_id": "f3ff9cb4-2dbb-11ee-b8ed-d3d228a76de6",
+                    "last_chapter_name": "第13话",
+                    "browse": {
+                        "comic_uuid": "6694c9ac-29d4-11ee-b79e-d3d228a76de6",
+                        "path_word": "hjqrpppnszjycslm",
+                        "chapter_uuid": "f3ff9cb4-2dbb-11ee-b8ed-d3d228a76de6",
+                        "chapter_name": "第13话"
+                    }
+                }
+            },
+            {
+                "uuid": 87512,
+                "name": null,
+                "b_folder": false,
+                "folder_id": null,
+                "last_browse": {
+                    "last_browse_id": "6b0a4c2a-5d18-11ed-98d8-024352452ce0",
+                    "last_browse_name": "第03話"
+                },
+                "comic": {
+                    "uuid": "a9c1e9a2-2238-11ed-a4af-024352452ce0",
+                    "b_display": true,
+                    "name": "極限OL想要服侍反派千金大小姐",
+                    "path_word": "jixianolxiangyaofushifanpaiqianjindaxiaojie",
+                    "females": [],
+                    "males": [],
+                    "author": [
+                        {
+                            "name": "ネコ太郎",
+                            "path_word": "ネコ太郎"
+                        }
+                    ],
+                    "theme": [],
+                    "cover": "https://hi77-overseas.mangafuna.xyz/jixianolxiangyaofushifanpaiqianjindaxiaojie/cover/1689823996.jpg.328x422.jpg",
+                    "status": 0,
+                    "popular": 245165,
+                    "datetime_updated": "2023-07-28",
+                    "last_chapter_id": "b65c313e-2d03-11ee-b8b0-d3d228a76de6",
+                    "last_chapter_name": "第11話",
+                    "browse": {
+                        "comic_uuid": "a9c1e9a2-2238-11ed-a4af-024352452ce0",
+                        "path_word": "jixianolxiangyaofushifanpaiqianjindaxiaojie",
+                        "chapter_uuid": "6b0a4c2a-5d18-11ed-98d8-024352452ce0",
+                        "chapter_name": "第03話"
+                    }
+                }
+            },
+            {
+                "uuid": 87340,
+                "name": null,
+                "b_folder": false,
+                "folder_id": null,
+                "last_browse": {
+                    "last_browse_id": "3a70c16a-29ce-11ee-b79c-d3d228a76de6",
+                    "last_browse_name": "英翻21话"
+                },
+                "comic": {
+                    "uuid": "9e7a5a22-1719-11ed-9b9e-024352452ce0",
+                    "b_display": true,
+                    "name": "絕對想當姐姐的義姐VS絕對想搞百合的義妹",
+                    "path_word": "jdxdjjdyjvsjdxgbhdym",
+                    "females": [],
+                    "males": [],
+                    "author": [
+                        {
+                            "name": "森",
+                            "path_word": "森"
+                        }
+                    ],
+                    "theme": [],
+                    "cover": "https://hi77-overseas.mangafuna.xyz/jdxdjjdyjvsjdxgbhdym/cover/1688820361.jpg.328x422.jpg",
+                    "status": 0,
+                    "popular": 470532,
+                    "datetime_updated": "2023-07-27",
+                    "last_chapter_id": "d1e11da2-2bd0-11ee-b848-d3d228a76de6",
+                    "last_chapter_name": "英翻23.5话",
+                    "browse": {
+                        "comic_uuid": "9e7a5a22-1719-11ed-9b9e-024352452ce0",
+                        "path_word": "jdxdjjdyjvsjdxgbhdym",
+                        "chapter_uuid": "3a70c16a-29ce-11ee-b79c-d3d228a76de6",
+                        "chapter_name": "英翻21话"
+                    }
+                }
+            },
+            {
+                "uuid": 86986,
+                "name": null,
+                "b_folder": false,
+                "folder_id": null,
+                "last_browse": {
+                    "last_browse_id": "e6c4a950-80dd-11eb-96ea-024352452ce0",
+                    "last_browse_name": "第66话"
+                },
+                "comic": {
+                    "uuid": "83d7cd54-c941-11e9-b371-00163e0ca5bd",
+                    "b_display": true,
+                    "name": "徹夜之歌",
+                    "path_word": "yequ1",
+                    "females": [],
+                    "males": [],
+                    "author": [
+                        {
+                            "name": "コトヤマ",
+                            "path_word": "コトヤマ"
+                        }
+                    ],
+                    "theme": [],
+                    "cover": "https://hi77-overseas.mangafuna.xyz/yequ1/cover/1651390101.jpg.328x422.jpg",
+                    "status": 0,
+                    "popular": 8246530,
+                    "datetime_updated": "2023-07-26",
+                    "last_chapter_id": "54d3f19a-2b5d-11ee-b818-d3d228a76de6",
+                    "last_chapter_name": "第180话",
+                    "browse": {
+                        "comic_uuid": "83d7cd54-c941-11e9-b371-00163e0ca5bd",
+                        "path_word": "yequ1",
+                        "chapter_uuid": "e6c4a950-80dd-11eb-96ea-024352452ce0",
+                        "chapter_name": "第66话"
+                    }
+                }
+            },
+            {
+                "uuid": 106590,
+                "name": null,
+                "b_folder": false,
+                "folder_id": null,
+                "last_browse": null,
+                "comic": {
+                    "uuid": "43b14be4-c915-11eb-9f72-00163e0ca5bd",
+                    "b_display": true,
+                    "name": "抱抱我吧，愈衣小姐。",
+                    "path_word": "baobaowobayuyixiaojie",
+                    "females": [],
+                    "males": [],
+                    "author": [
+                        {
+                            "name": "ミナミト",
+                            "path_word": "ミナミト"
+                        }
+                    ],
+                    "theme": [],
+                    "cover": "https://hi77-overseas.mangafuna.xyz/baobaowobayuyixiaojie/cover/1674119656.jpg.328x422.jpg",
+                    "status": 0,
+                    "popular": 89552,
+                    "datetime_updated": "2023-07-25",
+                    "last_chapter_id": "94ab10a8-2aba-11ee-b7ec-d3d228a76de6",
+                    "last_chapter_name": "第24话"
+                }
+            },
+            {
+                "uuid": 88855,
+                "name": null,
+                "b_folder": false,
+                "folder_id": null,
+                "last_browse": null,
+                "comic": {
+                    "uuid": "4a1aad40-9b85-11e8-93f0-c8ff287e7c9d",
+                    "b_display": true,
+                    "name": "好事多磨",
+                    "path_word": "haoshiduomo",
+                    "females": [],
+                    "males": [],
+                    "author": [
+                        {
+                            "name": "古钵るか",
+                            "path_word": "古钵るか"
+                        }
+                    ],
+                    "theme": [],
+                    "cover": "https://hi77-overseas.mangafuna.xyz/haoshiduomo/cover/1674094492.jpg.328x422.jpg",
+                    "status": 1,
+                    "popular": 1177918,
+                    "datetime_updated": "2023-07-25",
+                    "last_chapter_id": "d76558ca-2a85-11ee-b7da-d3d228a76de6",
+                    "last_chapter_name": "第161話"
+                }
+            },
+            {
+                "uuid": 36322,
+                "name": null,
+                "b_folder": false,
+                "folder_id": null,
+                "last_browse": {
+                    "last_browse_id": "91c1275e-944a-11ec-b9e6-024352452ce0",
+                    "last_browse_name": "第17话"
+                },
+                "comic": {
+                    "uuid": "3b8cdea0-a73e-11ea-91cc-00163e0ca5bd",
+                    "b_display": true,
+                    "name": "處刑少女的生存之道",
+                    "path_word": "chuxingshaonvdeshengcunzhidao",
+                    "females": [],
+                    "males": [],
+                    "author": [
+                        {
+                            "name": "佐藤真登",
+                            "path_word": "佐藤真登"
+                        },
+                        {
+                            "name": "三ッ谷亮",
+                            "path_word": "三ッ谷亮"
+                        }
+                    ],
+                    "theme": [],
+                    "cover": "https://hi77-overseas.mangafuna.xyz/chuxingshaonvdeshengcunzhidao/cover/1651390519.jpg.328x422.jpg",
+                    "status": 0,
+                    "popular": 284667,
+                    "datetime_updated": "2023-07-23",
+                    "last_chapter_id": "953fb926-295f-11ee-b76c-d3d228a76de6",
+                    "last_chapter_name": "第38话",
+                    "browse": {
+                        "comic_uuid": "3b8cdea0-a73e-11ea-91cc-00163e0ca5bd",
+                        "path_word": "chuxingshaonvdeshengcunzhidao",
+                        "chapter_uuid": "91c1275e-944a-11ec-b9e6-024352452ce0",
+                        "chapter_name": "第17话"
+                    }
+                }
+            }
+        ],
+        "total": 36,
+        "limit": 12,
+        "offset": 0
+    }
+}

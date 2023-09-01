@@ -1,0 +1,281 @@
+{
+    "build": {
+        "path_word": "wufajujuedeta",
+        "type": [
+            {
+                "id": 1,
+                "name": "話"
+            },
+            {
+                "id": 2,
+                "name": "卷"
+            },
+            {
+                "id": 3,
+                "name": "番外篇"
+            }
+        ]
+    },
+    "groups": {
+        "default": {
+            "path_word": "default",
+            "count": 40,
+            "name": "默認",
+            "chapters": [
+                {
+                    "type": 1,
+                    "name": "第01话",
+                    "id": "eec043de-f106-11e9-aab3-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第02话",
+                    "id": "30bf03f4-170b-11ea-b69c-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第03话",
+                    "id": "82b51cea-273a-11ea-a0fc-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第04话",
+                    "id": "81ef6c3c-449c-11ea-9805-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第05话",
+                    "id": "8e1b3b70-57f3-11ea-ba80-00163e0ca5bd"
+                },
+                {
+                    "type": 3,
+                    "name": "情人节特别篇",
+                    "id": "8e1b761c-57f3-11ea-ba80-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第06话",
+                    "id": "a0f98ac8-8834-11ea-8b1a-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第07话",
+                    "id": "71a108a2-a8d0-11ea-9033-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第08话",
+                    "id": "04420e8c-c077-11ea-a162-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第09话",
+                    "id": "6d621548-ec77-11ea-aa37-00163e0ca5bd"
+                },
+                {
+                    "type": 3,
+                    "name": "01卷番外后记",
+                    "id": "9f1a2af6-f769-11ea-b11d-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第10话",
+                    "id": "8a1b19d8-4202-11eb-b3e7-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第11话",
+                    "id": "8a1ae12a-4202-11eb-b3e7-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第12话",
+                    "id": "7a3b759c-528f-11eb-a9e3-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第13话",
+                    "id": "345bd854-7847-11eb-a872-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第14话",
+                    "id": "c0485c40-8bfa-11eb-9c26-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第15话",
+                    "id": "86e3e59e-b1a9-11eb-9404-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第16话",
+                    "id": "436a25c0-ba4c-11eb-9038-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第17话",
+                    "id": "49089256-da71-11eb-975a-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第18话",
+                    "id": "e8cb1622-fdf5-11eb-900b-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第19话",
+                    "id": "b15772a0-0cd0-11ec-93bf-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第20话",
+                    "id": "4537309a-13da-11ec-acf0-00163e0ca5bd"
+                },
+                {
+                    "type": 3,
+                    "name": "02卷番外后记",
+                    "id": "d8056504-2a41-11ec-b946-00163e0ca5bd"
+                },
+                {
+                    "type": 3,
+                    "name": "03卷番外后记",
+                    "id": "d8059038-2a41-11ec-b946-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第21话",
+                    "id": "636f0b58-37e0-11ec-8ffe-00163e0ca5bd"
+                },
+                {
+                    "type": 1,
+                    "name": "第22话",
+                    "id": "2b363819-5434-11ec-a5c1-024352452ce0"
+                },
+                {
+                    "type": 1,
+                    "name": "第23话",
+                    "id": "e2a19412-6eeb-11ec-8e25-024352452ce0"
+                },
+                {
+                    "type": 1,
+                    "name": "第23.5话",
+                    "id": "76c7903c-7dfc-11ec-a2ad-024352452ce0"
+                },
+                {
+                    "type": 1,
+                    "name": "第24话",
+                    "id": "3638cb16-a85c-11ec-a61a-024352452ce0"
+                },
+                {
+                    "type": 1,
+                    "name": "第25话",
+                    "id": "70b7fee8-bb55-11ec-991a-024352452ce0"
+                },
+                {
+                    "type": 3,
+                    "name": "04卷番外",
+                    "id": "67d39daa-c8ac-11ec-8bdb-024352452ce0"
+                },
+                {
+                    "type": 1,
+                    "name": "第26话",
+                    "id": "820d5f12-e6e3-11ec-ab54-024352452ce0"
+                },
+                {
+                    "type": 1,
+                    "name": "第27话",
+                    "id": "3a959f0d-0e2d-11ed-91c5-024352452ce0"
+                },
+                {
+                    "type": 1,
+                    "name": "第28话",
+                    "id": "400219c0-0e2d-11ed-91c5-024352452ce0"
+                },
+                {
+                    "type": 1,
+                    "name": "第29话",
+                    "id": "4b148110-33fb-11ed-b2a4-024352452ce0"
+                },
+                {
+                    "type": 1,
+                    "name": "第30话",
+                    "id": "0c472cde-4919-11ed-83e6-024352452ce0"
+                },
+                {
+                    "type": 1,
+                    "name": "第31话",
+                    "id": "23bd6b7e-6437-11ed-a27a-024352452ce0"
+                },
+                {
+                    "type": 1,
+                    "name": "第32话",
+                    "id": "a2ee7ccc-8f38-11ed-8c6b-024352452ce0"
+                },
+                {
+                    "type": 3,
+                    "name": "情人节番外",
+                    "id": "985b4c26-acee-11ed-a124-024352452ce0"
+                },
+                {
+                    "type": 3,
+                    "name": "番外-喜欢的还是这样子的你",
+                    "id": "9fb2d178-cdec-11ed-b17d-024352452ce0"
+                }
+            ],
+            "last_chapter": {
+                "index": 39,
+                "uuid": "9fb2d178-cdec-11ed-b17d-024352452ce0",
+                "count": 40,
+                "ordered": 326,
+                "size": 34,
+                "name": "番外-喜欢的还是这样子的你",
+                "comic_id": "c440cdd2-f105-11e9-aab3-00163e0ca5bd",
+                "comic_path_word": "wufajujuedeta",
+                "group_id": null,
+                "group_path_word": "default",
+                "type": 3,
+                "img_type": 1,
+                "news": "success",
+                "datetime_created": "2023-03-29",
+                "prev": "985b4c26-acee-11ed-a124-024352452ce0",
+                "next": null
+            }
+        },
+        "other_group": {
+            "path_word": "other_group",
+            "count": 2,
+            "name": "其他系列",
+            "chapters": [
+                {
+                    "type": 3,
+                    "name": "推特番外01",
+                    "id": "72d51c44-fdb8-11ea-a668-00163e0ca5bd"
+                },
+                {
+                    "type": 3,
+                    "name": "推特番外02",
+                    "id": "72d54840-fdb8-11ea-a668-00163e0ca5bd"
+                }
+            ],
+            "last_chapter": {
+                "index": 1,
+                "uuid": "72d54840-fdb8-11ea-a668-00163e0ca5bd",
+                "count": 2,
+                "ordered": 20,
+                "size": 2,
+                "name": "推特番外02",
+                "comic_id": "c440cdd2-f105-11e9-aab3-00163e0ca5bd",
+                "comic_path_word": "wufajujuedeta",
+                "group_id": "5ffbe542-c54a-11e8-878d-024352452ce0",
+                "group_path_word": "other_group",
+                "type": 3,
+                "img_type": 2,
+                "news": "success1",
+                "datetime_created": "2020-09-24",
+                "prev": "72d51c44-fdb8-11ea-a668-00163e0ca5bd",
+                "next": null
+            }
+        }
+    }
+}
