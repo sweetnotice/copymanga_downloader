@@ -21,8 +21,11 @@ class Comic_downloader:
         self.copy_manga_api = copymanga_api.Copymange_api(domain, path_word)
         self.chapters_infos: dict = chapters_infos
         comic_name = file_tool.format_str(self.copy_manga_api.get_comic_name())
-        self.workdir = comic_name
-        file_tool.mkdir(comic_name)
+        # 创建根目录
+        file_tool.mkdir('Download')
+        self.workdir = os.path.join('Download', comic_name)
+        # 一级目录
+        file_tool.mkdir(self.workdir)
 
     def get_chapters_pic(self) -> dict:
         # 获取每话图片地址 {话:[url链接]}
@@ -38,11 +41,12 @@ class Comic_downloader:
     def downloader(self, chapter_pic_infos: dict):
         for title, pic_lists in chapter_pic_infos.items():
             title = file_tool.format_str(title)
+            # 创建二级目录
             workdir = os.path.join(self.workdir, title)
             file_tool.mkdir(workdir)
             with ThreadPoolExecutor(30) as f:
                 for i, pic_url in enumerate(pic_lists, start=1):
-                    time.sleep(0.12)
+                    time.sleep(0.08)
                     i = str(i)
                     # download(pic_url, workdir, i)
                     f.submit(download, pic_url, workdir, i)
@@ -50,6 +54,7 @@ class Comic_downloader:
     def main(self):
         chapter_pic_infos = self.get_chapters_pic()
         self.downloader(chapter_pic_infos)
+        print('下载完毕')
 
 
 if __name__ == '__main__':
