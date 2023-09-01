@@ -1,6 +1,5 @@
 import os
 import time
-import requests
 from tqdm import tqdm
 from Spider_Toolkit import spidertools
 from src import copymanga_api, file_tool
@@ -43,7 +42,7 @@ class Comic_downloader:
             file_tool.mkdir(workdir)
             with ThreadPoolExecutor(30) as f:
                 for i, pic_url in enumerate(pic_lists, start=1):
-                    time.sleep(0.1)
+                    time.sleep(0.12)
                     i = str(i)
                     # download(pic_url, workdir, i)
                     f.submit(download, pic_url, workdir, i)
