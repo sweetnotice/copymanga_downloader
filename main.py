@@ -13,12 +13,19 @@ def init_url(url: str):
     return domain, path_word
 
 
+def write_global_info(domain, path_word):
+    with open('src/global_web_info.py', 'w', encoding='utf-8') as f:
+        f.write(f"domain = '{domain}'\n")
+        f.write(f"path_word = '{path_word}'")
+
+
 def main():
     while 1:
         url = input('输入漫画目录页网址>>>')
         # url = 'https://copymanga.site/comic/wufajujuedeta'
         domain, path_word = init_url(url)
-        copymanga_parser.Copy_manga_parser(domain=domain, path_word=path_word).main()
+        write_global_info(domain, path_word)
+        copymanga_parser.Copy_manga_parser().main()
 
 
 if __name__ == '__main__':

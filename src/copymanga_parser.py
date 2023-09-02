@@ -1,13 +1,11 @@
 import re
 from rich import print
-from src import copymanga_api, comic_downloader
+from src import comic_downloader, copymanga_api
 
 
 class Copy_manga_parser:
-    def __init__(self, domain, path_word):
-        self.copy_manga_api = copymanga_api.Copymange_api(domain, path_word)
-        self.domain = domain
-        self.path_word = path_word
+    def __init__(self):
+        self.copy_manga_api = copymanga_api.Copymange_api()
         self.comic_detail = {}
 
     def parse_comic_detail(self):
@@ -37,7 +35,7 @@ class Copy_manga_parser:
                 chapters_infos[detail_info["name"]] = detail_info['id']
                 chapter_index += 1
         user_input = input('\n0:全部下载\n数字-数字:下载指定话>>>')
-        if user_input == '0':
+        if user_input == '0' or user_input == '':
             down_chapters_infos = chapters_infos
         elif re.search(r'\d+-\d+', user_input):
             start: int = int(user_input.split('-')[0]) - 1
@@ -48,7 +46,7 @@ class Copy_manga_parser:
                                    list(chapters_infos.items())[start:finish]}
         else:
             raise '你输的什么玩意?'
-        comic_downloader.Comic_downloader(self.domain, self.path_word, down_chapters_infos).main()
+        comic_downloader.Comic_downloader(down_chapters_infos).main()
 
     def main(self):
         self.parse_comic_detail()
@@ -56,4 +54,4 @@ class Copy_manga_parser:
 
 
 if __name__ == '__main__':
-    Copy_manga_parser('copymanga.site', 'wufajujuedeta').main()
+    Copy_manga_parser().main()
