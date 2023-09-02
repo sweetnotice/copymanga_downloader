@@ -1,6 +1,6 @@
 import re
 import requests
-from src import result_decrypt, global_web_info
+from src import result_decrypt
 
 headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36',
@@ -8,7 +8,9 @@ headers = {
 
 
 class Copymange_api:
+
     def __init__(self):
+        from src import global_web_info
         self.domain = global_web_info.domain
         self.path_word = global_web_info.path_word
 
