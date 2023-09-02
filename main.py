@@ -3,10 +3,10 @@ from src import copymanga_parser
 
 
 def init_url(url: str):
-    # https://copymanga.site/comic/wufajujuedeta
+    # https://copymanga.site/comic/wufajujuedeta#
     if 'copymanga' in url:
         domain = urlparse(url).netloc
-        path_word = url.split('/')[-1]
+        path_word = url.split('/')[-1].replace('#', '')
     else:
         raise '你这输的啥?'
     print(f'域名:{domain}  |  关键词:{path_word}\n')
