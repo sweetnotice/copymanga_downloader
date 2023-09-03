@@ -1,12 +1,16 @@
 import re
 from rich import print
+from tqdm import tqdm
 from src import comic_downloader, copymanga_api
 
 
 class Copy_manga_parser:
     def __init__(self):
         self.copy_manga_api = copymanga_api.Copymange_api()
-        self.comic_detail = {}
+        self.comic_name = self.copy_manga_api.get_comic_name()
+        self.comic_detail = {'默认': [{'name': '第一话', 'type': '话', 'id': 'id'}]}
+        self.all_chapter_name_id = {'第一话': 'id', '第二话': 'id'}
+        self.comic_detail, self.all_chapter_name_id = {}, {}
 
     def parse_comic_detail(self):
         # 解析漫画章节
@@ -21,36 +25,66 @@ class Copy_manga_parser:
                                  'type': comic_type[str(chapter['type'])],
                                  'id': chapter['id']}
                 comic_chapters_list.append(comic_chapter)
+                self.all_chapter_name_id[chapter['name']] = chapter['id']
             self.comic_detail[group_name] = comic_chapters_list
+
         # print(self.comic_detail)
 
-    def user_choose(self):
-        # 让用户输入下载范围
-        chapter_index = 1
-        chapters_infos = {}
+    def show_text(self):
         for group_name, detail_item in self.comic_detail.items():
+            print(self.comic_name)
             print(f'[yellow]{group_name}[/]')
-            for detail_info in detail_item:
-                print(f'{chapter_index}    {detail_info["name"]}    {detail_info["type"]}')
-                chapters_infos[detail_info["name"]] = detail_info['id']
-                chapter_index += 1
+            for i, detail_info in enumerate(detail_item, start=1):
+                print(f'{i}    {detail_info["name"]}    {detail_info["type"]}')
+
+    def user_choose(self) -> dict:
+        # 让用户输入下载范围 {'第一话':'id'}
         user_input = input('\n0:全部下载\n数字-数字:下载指定话>>>')
         if user_input == '0' or user_input == '':
-            down_chapters_infos = chapters_infos
+            down_chapters_infos = self.all_chapter_name_id
         elif re.search(r'\d+-\d+', user_input):
             start: int = int(user_input.split('-')[0]) - 1
             finish: int = int(user_input.split('-')[1])
             if start > finish:
                 raise '结束小于开始'
             down_chapters_infos = {k: v for k, v in
-                                   list(chapters_infos.items())[start:finish]}
+                                   list(self.all_chapter_name_id.items())[start:finish]}
         else:
             raise '你输的什么玩意?'
-        comic_downloader.Comic_downloader(down_chapters_infos).main()
+        return down_chapters_infos
+
+    def get_comment(self, chapter_id) -> dict:
+        # 获取一话评论  {用户名:评论}
+        comment_items = {}
+        comment_detail = self.copy_manga_api.get_chapter_comment(chapter_id)
+        for comment_item in comment_detail:
+            comment_user_name = comment_item['user_name']
+            comment_data = comment_item['comment']
+            comment_items[comment_user_name] = comment_data
+        return comment_items
+
+    def get_pic(self, chapter_id) -> list:
+        # 获取一话图片
+        pic_lists = []
+        pic_detail = self.copy_manga_api.get_comic_pics(chapter_id)
+        for pic_item in pic_detail:
+            pic_lists.append(pic_item['url'])
+        return pic_lists
+
+    def get_chapters_pic_comment(self, down_chapter_infos: dict):
+        # 获取每话图片地址和评论 {话:{pic_url:[图片链接],comment:{用户名:评论}}}
+        chapter_pic_comments = {}
+        for chapter_title, chapter_id in tqdm(down_chapter_infos.items(), desc='漫画解析中...'):
+            chapter_pic_comments[chapter_title] = {'pic_url': self.get_pic(chapter_id),
+                                                   'comment': self.get_comment(chapter_id)}
+        return chapter_pic_comments
 
     def main(self):
         self.parse_comic_detail()
-        self.user_choose()
+        self.show_text()
+        down_chapter_infos = self.user_choose()
+        chapter_pic_comments = self.get_chapters_pic_comment(down_chapter_infos)
+        comic_downloader.Comic_downloader(self.comic_name, chapter_pic_comments).main()
 
 
 if __name__ == '__main__':

@@ -1,8 +1,7 @@
 import os
 import time
-from tqdm import tqdm
 from Spider_Toolkit import spidertools
-from src import file_tool, drew_comment_pic, copymanga_api
+from src import file_tool, drew_comment_pic
 from concurrent.futures import ThreadPoolExecutor
 
 
@@ -13,63 +12,33 @@ def download(url, workdir, name):
 
 
 class Comic_downloader:
-    def __init__(self, chapters_infos):
-        self.copy_manga_api = copymanga_api.Copymange_api()
-        self.chapters_infos: dict = chapters_infos
-        comic_name = file_tool.format_str(self.copy_manga_api.get_comic_name())
+    def __init__(self, comic_name, chapter_pic_comments):
+        self.chapter_pic_comments = chapter_pic_comments
+
+        comic_name = file_tool.format_str(comic_name)
         # 创建根目录
         file_tool.mkdir('Download')
         self.workdir = os.path.join('Download', comic_name)
         # 一级目录
         file_tool.mkdir(self.workdir)
 
-    def get_comment(self, chapter_id) -> dict:
-        # 获取一话评论  {用户名:评论}
-        comment_items = {}
-        comment_detail = self.copy_manga_api.get_chapter_comment(chapter_id)
-        for comment_item in comment_detail:
-            comment_user_name = comment_item['user_name']
-            comment_data = comment_item['comment']
-            comment_items[comment_user_name] = comment_data
-        return comment_items
-
-    def get_pic(self, chapter_id) -> list:
-        # 获取一话图片
-        pic_lists = []
-        pic_detail = self.copy_manga_api.get_comic_pics(chapter_id)
-        for pic_item in pic_detail:
-            pic_lists.append(pic_item['url'])
-        return pic_lists
-
-    def get_chapters_pic_comment(self):
-        # 获取每话图片地址 {话:[图片链接]}
-        chapter_pic_infos = {}
-        chapter_comments_infos = {}
-        for chapter_title, chapter_id in tqdm(self.chapters_infos.items(), desc='漫画解析中...'):
-            chapter_pic_infos[chapter_title] = self.get_pic(chapter_id)
-            chapter_comments_infos[chapter_title] = self.get_comment(chapter_id)
-        return chapter_pic_infos, chapter_comments_infos
-
-    def downloader(self, chapter_pic_infos: dict, chapter_comments_infos: dict):
-        chapter_index = 1
-        for title, pic_lists in chapter_pic_infos.items():
-            title = file_tool.format_str(title)
+    def downloader(self):
+        for title, pic_comment_item in self.chapter_pic_comments.items():
             # 创建二级目录
-            workdir = os.path.join(self.workdir, title)
+            workdir = os.path.join(self.workdir, file_tool.format_str(title))
             file_tool.mkdir(workdir)
             with ThreadPoolExecutor(30) as f:
-                for i, pic_url in enumerate(pic_lists, start=1):
+                pic_urls = pic_comment_item['pic_url']
+                comments = pic_comment_item['comment']
+                for i, pic_url in enumerate(pic_urls, start=1):
                     time.sleep(0.08)
                     # download(pic_url, workdir, i)
                     f.submit(download, pic_url, workdir, str(i))
                 # 当前话的评论
-                comment_item: dict = list(chapter_comments_infos.values())[chapter_index - 1]
-                f.submit(drew_comment_pic.main, comment_item, workdir, str(i + 1))
-            chapter_index += 1
+                f.submit(drew_comment_pic.main, comments, workdir, str(i + 1))
 
     def main(self):
-        chapter_pic_infos, chapter_comments_infos = self.get_chapters_pic_comment()
-        self.downloader(chapter_pic_infos, chapter_comments_infos)
+        self.downloader()
         print('下载完毕')
 
 
