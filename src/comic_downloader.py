@@ -1,37 +1,40 @@
 import os
 import time
-from Spider_Toolkit import spidertools
-from src import file_tool, drew_comment_pic
+from spider_toolbox import requests_tools, file_tools
 from concurrent.futures import ThreadPoolExecutor
+from src import drew_comment_pic, copymanga_api
 
 
 def download(url, workdir, name):
-    spidertools.donwload_byte_function(url, path_=workdir, name=name, type_='.jpg')
+    resp = requests_tools.byte_downloader(url, workdir, name, 'jpg')
     workdir = os.path.join(workdir, name) + '.jpg'
-    print(f'{workdir}下载完成\n', end='')
+    if resp:
+        print(f'{workdir}下载完成\n', end='')
+    else:
+        print(f'{workdir} 下载出错')
 
 
 class Comic_downloader:
     def __init__(self, comic_name, chapter_pic_comments):
         self.chapter_pic_comments = chapter_pic_comments
 
-        comic_name = file_tool.format_str(comic_name)
+        comic_name = file_tools.format_str(comic_name)
         # 创建根目录
-        file_tool.mkdir('Download')
+        file_tools.mkdir('Download')
         self.workdir = os.path.join('Download', comic_name)
         # 一级目录
-        file_tool.mkdir(self.workdir)
+        file_tools.mkdir(self.workdir)
 
     def downloader(self):
         for title, pic_comment_item in self.chapter_pic_comments.items():
             # 创建二级目录
-            workdir = os.path.join(self.workdir, file_tool.format_str(title))
-            file_tool.mkdir(workdir)
+            workdir = os.path.join(self.workdir, file_tools.format_str(title))
+            file_tools.mkdir(workdir)
             with ThreadPoolExecutor(30) as f:
                 pic_urls = pic_comment_item['pic_url']
                 comments = pic_comment_item['comment']
                 for i, pic_url in enumerate(pic_urls, start=1):
-                    time.sleep(0.08)
+                    time.sleep(0.2)
                     # download(pic_url, workdir, i)
                     f.submit(download, pic_url, workdir, str(i))
                 # 当前话的评论

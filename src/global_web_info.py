@@ -1,2 +1,2 @@
-domain = 'copymanga.site'
-path_word = 'wufajujuedeta'
+domain = 'www.copymanga.site'
+path_word = 'yingyuxiaoqu'
