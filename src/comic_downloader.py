@@ -23,15 +23,17 @@ class Comic_downloader:
         # 一级目录
         file_tool.mkdir(self.workdir)
 
-    def get_comment(self, chapter_id):
-        # 获取一话评论
-        comment_lists = []
+    def get_comment(self, chapter_id) -> dict:
+        # 获取一话评论  {用户名:评论}
+        comment_items = {}
         comment_detail = self.copy_manga_api.get_chapter_comment(chapter_id)
         for comment_item in comment_detail:
-            comment_lists.append(comment_item['comment'])
-        return comment_lists
+            comment_user_name = comment_item['user_name']
+            comment_data = comment_item['comment']
+            comment_items[comment_user_name] = comment_data
+        return comment_items
 
-    def get_pic(self, chapter_id):
+    def get_pic(self, chapter_id) -> list:
         # 获取一话图片
         pic_lists = []
         pic_detail = self.copy_manga_api.get_comic_pics(chapter_id)
@@ -61,8 +63,8 @@ class Comic_downloader:
                     # download(pic_url, workdir, i)
                     f.submit(download, pic_url, workdir, str(i))
                 # 当前话的评论
-                comment_list: list = list(chapter_comments_infos.values())[chapter_index - 1]
-                f.submit(drew_comment_pic.main, comment_list, workdir, str(i + 1))
+                comment_item: dict = list(chapter_comments_infos.values())[chapter_index - 1]
+                f.submit(drew_comment_pic.main, comment_item, workdir, str(i + 1))
             chapter_index += 1
 
     def main(self):

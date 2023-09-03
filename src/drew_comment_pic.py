@@ -2,6 +2,18 @@ import os
 from PIL import Image, ImageDraw, ImageFont
 
 
+def parse_comment_item(comment_item: dict) -> list:
+    """
+    :param comment_item: {用户名:评论}
+    :return:
+    """
+    comment_list = []
+    for k, v in comment_item.items():
+        comment = f'{k} : {v}'
+        comment_list.append(comment)
+    return comment_list
+
+
 def drew_comment(comment_list: list, workdir, name):
     workdir = os.path.join(workdir, name)
     # 加载图片
@@ -21,8 +33,9 @@ def drew_comment(comment_list: list, workdir, name):
     print(f'{workdir}  评论页绘制完毕\n', end='')
 
 
-def main(comment_lists: list, workdir, save_name):
-    drew_comment(comment_lists, workdir, save_name)
+def main(comment_item: dict, workdir, save_name):
+    comment_list = parse_comment_item(comment_item)
+    drew_comment(comment_list, workdir, save_name)
 
 
 if __name__ == '__main__':
