@@ -31,11 +31,13 @@ class Copy_manga_parser:
         # print(self.comic_detail)
 
     def show_text(self):
+        i = 1
+        print(self.comic_name)
         for group_name, detail_item in self.comic_detail.items():
-            print(self.comic_name)
             print(f'[yellow]{group_name}[/]')
-            for i, detail_info in enumerate(detail_item, start=1):
+            for detail_info in detail_item:
                 print(f'{i}    {detail_info["name"]}    {detail_info["type"]}')
+                i += 1
 
     def user_choose(self) -> dict:
         # 让用户输入下载范围 {'第一话':'id'}

@@ -2,7 +2,7 @@ import os
 import time
 from spider_toolbox import requests_tools, file_tools
 from concurrent.futures import ThreadPoolExecutor
-from src import drew_comment_pic, copymanga_api
+from src import drew_comment_pic
 
 
 def download(url, workdir, name):
