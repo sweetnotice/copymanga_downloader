@@ -1,5 +1,6 @@
 from urllib.parse import urlparse
 from src import copymanga_parser
+import json
 
 
 def init_url(url: str):
@@ -14,9 +15,9 @@ def init_url(url: str):
 
 
 def write_global_info(domain, path_word):
-    with open('src/global_web_info.py', 'w', encoding='utf-8') as f:
-        f.write(f"domain = '{domain}'\n")
-        f.write(f"path_word = '{path_word}'")
+    write_dict = {"domain": domain, "path_word": path_word}
+    with open('src/global_web_info.json', 'w', encoding='utf-8') as f:
+        f.write(json.dumps(write_dict))
 
 
 def main():

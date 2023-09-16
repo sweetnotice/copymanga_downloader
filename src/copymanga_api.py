@@ -1,4 +1,5 @@
 import re
+import json
 from spider_toolbox import requests_tools
 from src import result_decrypt
 
@@ -7,11 +8,17 @@ headers = {
 }
 
 
+def get_global_web_infos():
+    with open(r'src/global_web_info.json', encoding='utf-8', mode='r') as f:
+        web_info = json.loads(f.read())
+        domain = web_info['domain']
+        path_word = web_info['path_word']
+    return domain, path_word
+
+
 class Copymange_api:
     def __init__(self):
-        from src import global_web_info
-        self.domain = global_web_info.domain
-        self.path_word = global_web_info.path_word
+        self.domain, self.path_word = get_global_web_infos()
 
     def get_comic_name(self):
         resp = requests_tools.get(f'https://{self.domain}/comic/{self.path_word}', headers=headers)
