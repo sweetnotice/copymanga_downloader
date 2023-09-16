@@ -3,6 +3,7 @@ import time
 from spider_toolbox import requests_tools, file_tools
 from concurrent.futures import ThreadPoolExecutor
 from src import drew_comment_pic
+from src.config_info import config_info
 
 
 def download(url, workdir, name):
@@ -14,14 +15,17 @@ def download(url, workdir, name):
         print(f'{workdir} 下载出错')
 
 
+download_path = config_info['download_path']
+
+
 class Comic_downloader:
     def __init__(self, comic_name, chapter_pic_comments):
         self.chapter_pic_comments = chapter_pic_comments
 
-        comic_name = file_tools.format_str(comic_name)
+        self.comic_name = file_tools.format_str(comic_name)
         # 创建根目录
-        file_tools.mkdir('Download')
-        self.workdir = os.path.join('Download', comic_name)
+        file_tools.mkdir(download_path)
+        self.workdir = os.path.join(download_path, self.comic_name)
         # 一级目录
         file_tools.mkdir(self.workdir)
 

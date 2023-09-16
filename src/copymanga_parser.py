@@ -1,7 +1,9 @@
 import re
+import os
 from rich import print
 from tqdm import tqdm
 from src import comic_downloader, copymanga_api
+from src.config_info import config_info
 
 
 class Copy_manga_parser:
@@ -38,6 +40,15 @@ class Copy_manga_parser:
             for detail_info in detail_item:
                 print(f'{i}    {detail_info["name"]}    {detail_info["type"]}')
                 i += 1
+
+    def is_downloaded(self):
+        if self.comic_name in os.listdir(config_info['download_path']):
+            choice = input('已经下载过了,请问是否还要继续?(y/N)')
+            if choice == 'y' or choice == 'Y':
+                return True
+            elif choice == 'N' or choice == '' or choice == 'n':
+                return False
+        return True
 
     def user_choose(self) -> dict:
         # 让用户输入下载范围 {'第一话':'id'}
@@ -84,9 +95,10 @@ class Copy_manga_parser:
     def main(self):
         self.parse_comic_detail()
         self.show_text()
-        down_chapter_infos = self.user_choose()
-        chapter_pic_comments = self.get_chapters_pic_comment(down_chapter_infos)
-        comic_downloader.Comic_downloader(self.comic_name, chapter_pic_comments).main()
+        if self.is_downloaded():
+            down_chapter_infos = self.user_choose()
+            chapter_pic_comments = self.get_chapters_pic_comment(down_chapter_infos)
+            comic_downloader.Comic_downloader(self.comic_name, chapter_pic_comments).main()
 
 
 if __name__ == '__main__':
