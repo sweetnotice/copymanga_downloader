@@ -19,16 +19,20 @@ def get_global_web_infos():
 class Copymange_api:
     def __init__(self):
         self.domain, self.path_word = get_global_web_infos()
+        self.retry_num = 5
+        self.timeout = 3
 
     def get_comic_name(self):
-        resp = requests_tools.get(f'https://{self.domain}/comic/{self.path_word}', headers=headers)
+        resp = requests_tools.get(f'https://{self.domain}/comic/{self.path_word}', headers=headers,
+                                  timeout=self.timeout, retry_num=self.retry_num)
         if resp.status_code != 200:
             raise '请检查网络连接'
         comic_name = re.search('<h6 title="(.*?)">.*?</h6>', resp.text).group(1)
         return comic_name
 
     def get_comicdetail(self):
-        resp = requests_tools.get(f'https://{self.domain}/comicdetail/{self.path_word}/chapters', headers=headers)
+        resp = requests_tools.get(f'https://{self.domain}/comicdetail/{self.path_word}/chapters', headers=headers,
+                                  timeout=self.timeout, retry_num=self.retry_num)
         if resp.status_code != 200:
             raise '请检查网络连接'
         if resp.json()['code'] != 200:
@@ -39,7 +43,8 @@ class Copymange_api:
         return decrypt_data
 
     def get_comic_pics(self, chapter_id):
-        resp = requests_tools.get(f'https://{self.domain}/comic/{self.path_word}/chapter/{chapter_id}', headers=headers)
+        resp = requests_tools.get(f'https://{self.domain}/comic/{self.path_word}/chapter/{chapter_id}', headers=headers,
+                                  timeout=self.timeout, retry_num=self.retry_num)
         if resp.status_code != 200:
             raise '请检查网络连接'
         encrypt_data = re.search('<div.class="imageData".contentKey="(.*?)"></div>', resp.text).group(1)
@@ -55,7 +60,8 @@ class Copymange_api:
             '_update': 'true',
         }
         domain = self.domain.replace('www.', '')
-        resp = requests_tools.get(f'https://api.{domain}/api/v3/roasts', params=params, headers=headers)
+        resp = requests_tools.get(f'https://api.{domain}/api/v3/roasts', params=params, headers=headers,
+                                  timeout=self.timeout, retry_num=self.retry_num)
         if resp.status_code != 200:
             raise '请检查网络连接'
         if resp.json()['code'] != 200:

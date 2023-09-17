@@ -43,7 +43,8 @@ class Copy_manga_parser:
 
     def is_downloaded(self):
         if self.comic_name in os.listdir(config_info['download_path']):
-            choice = input('已经下载过了,请问是否还要继续?(y/N)')
+            print('[red]已经下载过了,请问是否还要继续?(y/N)[/]', end='')
+            choice = input('')
             if choice == 'y' or choice == 'Y':
                 return True
             elif choice == 'N' or choice == '' or choice == 'n':

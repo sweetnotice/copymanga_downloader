@@ -7,7 +7,13 @@ from src.config_info import config_info
 
 
 def download(url, workdir, name):
-    resp = requests_tools.byte_downloader(url, workdir, name, 'jpg')
+    resp = requests_tools.byte_downloader(url,
+                                          workdir=workdir,
+                                          file_name=name,
+                                          file_type='jpg',
+                                          timeout=3,
+                                          retry_num=15,
+                                          retry_sleep=1)
     workdir = os.path.join(workdir, name) + '.jpg'
     if resp:
         print(f'{workdir}下载完成\n', end='')
@@ -30,9 +36,10 @@ class Comic_downloader:
         file_tools.mkdir(self.workdir)
 
     def downloader(self):
+        chapter_index = 1
         for title, pic_comment_item in self.chapter_pic_comments.items():
             # 创建二级目录
-            workdir = os.path.join(self.workdir, file_tools.format_str(title))
+            workdir = os.path.join(self.workdir, file_tools.format_str(f'{chapter_index}{title}'))
             file_tools.mkdir(workdir)
             with ThreadPoolExecutor(30) as f:
                 pic_urls = pic_comment_item['pic_url']
@@ -43,6 +50,7 @@ class Comic_downloader:
                     f.submit(download, pic_url, workdir, str(i))
                 # 当前话的评论
                 f.submit(drew_comment_pic.main, comments, workdir, str(i + 1))
+            chapter_index += 1
 
     def main(self):
         self.downloader()
