@@ -13,6 +13,7 @@ class Copy_manga_parser:
         self.comic_detail = {'默认': [{'name': '第一话', 'type': '话', 'id': 'id'}]}
         self.all_chapter_name_id = {'第一话': 'id', '第二话': 'id'}
         self.comic_detail, self.all_chapter_name_id = {}, {}
+        self.start_chapter_index = 1  # 选择开始下载章节的序号
 
     def parse_comic_detail(self):
         # 解析漫画章节
@@ -63,6 +64,7 @@ class Copy_manga_parser:
                 raise '结束小于开始'
             down_chapters_infos = {k: v for k, v in
                                    list(self.all_chapter_name_id.items())[start:finish]}
+            self.start_chapter_index = start + 1
         else:
             raise '你输的什么玩意?'
         return down_chapters_infos
@@ -99,7 +101,7 @@ class Copy_manga_parser:
         if self.is_downloaded():
             down_chapter_infos = self.user_choose()
             chapter_pic_comments = self.get_chapters_pic_comment(down_chapter_infos)
-            comic_downloader.Comic_downloader(self.comic_name, chapter_pic_comments).main()
+            comic_downloader.Comic_downloader(self.comic_name, chapter_pic_comments, self.start_chapter_index).main()
 
 
 if __name__ == '__main__':

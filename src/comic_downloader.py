@@ -1,8 +1,9 @@
 import os
 import time
+from rich import print
 from spider_toolbox import requests_tools, file_tools
 from concurrent.futures import ThreadPoolExecutor
-from src import drew_comment_pic
+from src import drew_comment_pic, check_comic_download
 from src.config_info import config_info
 
 
@@ -16,18 +17,18 @@ def download(url, workdir, name):
                                           retry_sleep=1)
     workdir = os.path.join(workdir, name) + '.jpg'
     if resp:
-        print(f'{workdir}下载完成\n', end='')
+        print(f'[white]{workdir}下载完成[/]\n', end='')
     else:
-        print(f'{workdir} 下载出错')
+        print(f'[red]{workdir} 下载出错[/]')
 
 
 download_path = config_info['download_path']
 
 
 class Comic_downloader:
-    def __init__(self, comic_name, chapter_pic_comments):
+    def __init__(self, comic_name, chapter_pic_comments, start_chapter_index):
         self.chapter_pic_comments = chapter_pic_comments
-
+        self.start_chapter_index = start_chapter_index  # 开始下载章节序号
         self.comic_name = file_tools.format_str(comic_name)
         # 创建根目录
         file_tools.mkdir(download_path)
@@ -36,10 +37,9 @@ class Comic_downloader:
         file_tools.mkdir(self.workdir)
 
     def downloader(self):
-        chapter_index = 1
         for title, pic_comment_item in self.chapter_pic_comments.items():
             # 创建二级目录
-            workdir = os.path.join(self.workdir, file_tools.format_str(f'{chapter_index}{title}'))
+            workdir = os.path.join(self.workdir, file_tools.format_str(f'{self.start_chapter_index}{title}'))
             file_tools.mkdir(workdir)
             with ThreadPoolExecutor(30) as f:
                 pic_urls = pic_comment_item['pic_url']
@@ -50,11 +50,12 @@ class Comic_downloader:
                     f.submit(download, pic_url, workdir, str(i))
                 # 当前话的评论
                 f.submit(drew_comment_pic.main, comments, workdir, str(i + 1))
-            chapter_index += 1
+            self.start_chapter_index += 1
 
     def main(self):
         self.downloader()
-        print('下载完毕')
+        # 检查下载数量
+        check_comic_download.check_comic_pic_num(self.workdir)
 
 
 if __name__ == '__main__':
