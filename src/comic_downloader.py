@@ -4,7 +4,7 @@ from rich import print
 from spider_toolbox import requests_tools, file_tools
 from concurrent.futures import ThreadPoolExecutor
 from src import drew_comment_pic, check_comic_download
-from src.config_info import config_info
+from src.config_info import download_path
 
 
 def download(url, workdir, name):
@@ -22,7 +22,7 @@ def download(url, workdir, name):
         print(f'[red]{workdir} 下载出错[/]')
 
 
-download_path = config_info['download_path']
+download_path = download_path
 
 
 class Comic_downloader:

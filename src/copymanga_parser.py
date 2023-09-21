@@ -3,7 +3,7 @@ import os
 from rich import print
 from tqdm import tqdm
 from src import comic_downloader, copymanga_api
-from src.config_info import config_info
+from src.config_info import download_path
 
 
 class Copy_manga_parser:
@@ -43,7 +43,7 @@ class Copy_manga_parser:
                 i += 1
 
     def is_downloaded(self):
-        if self.comic_name in os.listdir(config_info['download_path']):
+        if self.comic_name in os.listdir(download_path):
             print('[red]已经下载过了,请问是否还要继续?(y/N)[/]', end='')
             choice = input('')
             if choice == 'y' or choice == 'Y':
