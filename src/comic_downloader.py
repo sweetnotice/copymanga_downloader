@@ -13,7 +13,7 @@ def download(url, workdir, name):
                                           file_name=name,
                                           file_type='jpg',
                                           timeout=3,
-                                          retry_num=15,
+                                          retry_num=20,
                                           retry_sleep=1)
     workdir = os.path.join(workdir, name) + '.jpg'
     if resp:
@@ -28,7 +28,7 @@ download_path = download_path
 class Comic_downloader:
     def __init__(self, comic_name, chapter_pic_comments, start_chapter_index):
         self.chapter_pic_comments = chapter_pic_comments
-        self.start_chapter_index = start_chapter_index  # 开始下载章节序号
+        self.chapter_index = start_chapter_index  # 开始下载章节序号
         self.comic_name = file_tools.format_str(comic_name)
         # 创建根目录
         file_tools.mkdir(download_path)
@@ -36,24 +36,32 @@ class Comic_downloader:
         # 一级目录
         file_tools.mkdir(self.workdir)
 
-    def downloader(self):
-        for title, pic_comment_item in self.chapter_pic_comments.items():
-            # 创建二级目录
-            workdir = os.path.join(self.workdir, file_tools.format_str(f'{self.start_chapter_index}{title}'))
-            file_tools.mkdir(workdir)
-            with ThreadPoolExecutor(30) as f:
-                pic_urls = pic_comment_item['pic_url']
-                comments = pic_comment_item['comment']
-                for i, pic_url in enumerate(pic_urls, start=1):
-                    time.sleep(0.2)
-                    # download(pic_url, workdir, i)
-                    f.submit(download, pic_url, workdir, str(i))
-                # 当前话的评论
-                f.submit(drew_comment_pic.main, comments, workdir, str(i + 1))
-            self.start_chapter_index += 1
+    def one_chapter_downloader(self, chapter_index, title, pic_comment_item, thread_num: 20):
+        # 创建二级目录
+        workdir = os.path.join(self.workdir, file_tools.format_str(f'{chapter_index}_{title}'))
+        file_tools.mkdir(workdir)
+        with ThreadPoolExecutor(thread_num) as f:
+            pic_urls = pic_comment_item['pic_url']
+            comments = pic_comment_item['comment']
+            for i, pic_url in enumerate(pic_urls, start=1):
+                # time.sleep(0.2)
+                # download(pic_url, workdir, i)
+                f.submit(download, pic_url, workdir, str(i))
+            # 当前话的评论
+            f.submit(drew_comment_pic.main, comments, workdir, str(i + 1))
+
+    def thread_downloader(self, thread_num: int = 2):
+        with ThreadPoolExecutor(thread_num) as ff:
+            for title, pic_comment_item in self.chapter_pic_comments.items():
+                ff.submit(self.one_chapter_downloader,
+                          self.chapter_index,
+                          title,
+                          pic_comment_item,
+                          20)
+                self.chapter_index += 1
 
     def main(self):
-        self.downloader()
+        self.thread_downloader(thread_num=2)
         # 检查下载数量
         check_comic_download.check_comic_pic_num(self.workdir)
 

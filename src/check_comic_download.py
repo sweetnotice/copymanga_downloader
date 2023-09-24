@@ -11,7 +11,7 @@ def check_comic_pic_num(workdir):
             if len(files) != int(files[-1].replace('.jpg', '')):
                 lose_pic_dirs.append(root)
     if len(lose_pic_dirs) == 0:
-        print('[green]下载完毕[/]')
+        print('[green]下载完毕 无缺失页[/]')
     else:
         print(f'[red]{lose_pic_dirs} 话图片缺失![/]')
 
