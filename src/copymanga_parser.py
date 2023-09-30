@@ -46,9 +46,9 @@ class Copy_manga_parser:
         if self.comic_name in os.listdir(download_path):
             print('[red]已经下载过了,请问是否还要继续?(y/N)[/]', end='')
             choice = input('')
-            if choice == 'y' or choice == 'Y':
+            if choice in ['Y', 'y']:
                 return True
-            elif choice == 'N' or choice == '' or choice == 'n':
+            elif choice in ['N', 'n', ' ']:
                 return False
         return True
 

@@ -3,7 +3,7 @@ import time
 from rich import print
 from spider_toolbox import requests_tools, file_tools
 from concurrent.futures import ThreadPoolExecutor
-from src import drew_comment_pic, check_comic_download
+from src import drew_comment_pic, check_comic_download,remove_end_ad
 from src.config_info import download_path
 
 
@@ -30,14 +30,14 @@ class Comic_downloader:
         self.chapter_pic_comments = chapter_pic_comments
         self.chapter_index = start_chapter_index  # 开始下载章节序号
         self.comic_name = file_tools.format_str(comic_name)
-        # 创建根目录
+        # 创建根目录 download目录
         file_tools.mkdir(download_path)
+        # 一级目录 书目录
         self.workdir = os.path.join(download_path, self.comic_name)
-        # 一级目录
         file_tools.mkdir(self.workdir)
 
     def one_chapter_downloader(self, chapter_index, title, pic_comment_item, thread_num: 20):
-        # 创建二级目录
+        # 创建二级目录 话目录
         workdir = os.path.join(self.workdir, file_tools.format_str(f'{chapter_index}_{title}'))
         file_tools.mkdir(workdir)
         with ThreadPoolExecutor(thread_num) as f:
@@ -61,9 +61,11 @@ class Comic_downloader:
                 self.chapter_index += 1
 
     def main(self):
-        self.thread_downloader(thread_num=2)
-        # 检查下载数量
+        self.thread_downloader(thread_num=3)
+        # 核对下载数量
         check_comic_download.check_comic_pic_num(self.workdir)
+        # 删除汉化组广告
+        # remove_end_ad.main(self.workdir)
 
 
 if __name__ == '__main__':
