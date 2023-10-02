@@ -65,7 +65,7 @@ class Comic_downloader:
         # 核对下载数量
         check_comic_download.check_comic_pic_num(self.workdir)
         # 删除汉化组广告
-        # remove_end_ad.main(self.workdir)
+        remove_end_ad.main(self.workdir)
 
 
 if __name__ == '__main__':
