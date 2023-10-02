@@ -99,6 +99,7 @@ class Copy_manga_parser:
         self.parse_comic_detail()
         self.show_text()
         if self.is_downloaded():
+            # 需要下载的话合集 {name:id}
             down_chapter_infos = self.user_choose()
             chapter_pic_comments = self.get_chapters_pic_comment(down_chapter_infos)
             comic_downloader.Comic_downloader(self.comic_name, chapter_pic_comments, self.start_chapter_index).main()

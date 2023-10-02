@@ -82,9 +82,10 @@ def del_ad_pic(ad_pics):
 def main(workdir):
     all_second_last_pic = find_second_last_images(workdir)
     ad_pics = find_ad_pics(all_second_last_pic)
-    if input(f'找到{len(ad_pics)}话有广告图(准确度极高),是否删除(Y/n)>>>') in ['Y', 'y', '']:
-        del_ad_pic(ad_pics)
-        print('删除成功!')
+    if len(ad_pics) != 0:
+        if input(f'找到{len(ad_pics)}话有广告图(准确度极高),是否删除(Y/n)>>>') in ['Y', 'y', '']:
+            del_ad_pic(ad_pics)
+            print('删除成功!')
 
 
 if __name__ == '__main__':

@@ -3,3 +3,7 @@ Requests==2.31.0
 rich==13.5.2
 spider_toolbox
 tqdm==4.66.1
+opencv-python~=4.8.1.78
+numpy~=1.25.2
+crypto~=1.4.1
+Pillow~=10.0.0
