@@ -24,6 +24,7 @@ def main():
     while 1:
         url = input('输入漫画目录页网址>>>')
         # url = 'https://copymanga.site/comic/wufajujuedeta'
+        # url = 'https://www.copymanga.site/comic/lianyuqingchang'
         domain, path_word = init_url(url)
         write_global_info(domain, path_word)
         copymanga_parser.Copy_manga_parser().main()

@@ -9,34 +9,46 @@ def parse_comment_item(comment_item: dict) -> list:
     """
     comment_list = []
     for k, v in comment_item.items():
+        v = v.replace("，", ",")
         comment = f'{k} : {v}'
-        comment_list.append(comment)
+        if len(comment) <= 45:
+            comment_list.append(comment)
+    if len(comment_list) == 0:
+        comment_list.append('暂无评论...')
     return comment_list
 
 
-def drew_comment(comment_list: list, workdir, name):
-    workdir = os.path.join(workdir, name)
-    # 加载图片
-    img = Image.new("RGB", (800, 1000), (255, 255, 255))
-    # 设置字体
-    font = ImageFont.truetype("msyh.ttc", 19)
-    # 创建绘图对象
-    draw = ImageDraw.Draw(img)
-    # 设置开始坐标
-    y = 0
-    # 循环绘制每个评论
-    for comment in comment_list:
-        draw.text((0, y), comment, fill=(0, 0, 0), font=font)
-        y += 20
-        # 保存图片
-    img.save(f'{workdir}.jpg')
-    print(f'{workdir}  评论页绘制完毕\n', end='')
+def text_to_image(text_list, workdir, save_name,
+                  font_path='msyh.ttc',
+                  fontsize=16,
+                  color=(0, 0, 0),
+                  background=(255, 255, 255)):
+    workdir = os.path.join(workdir, f'{save_name}.jpg')
+    # 计算图片大小
+    width = (fontsize - 1) * max(len(text) for text in text_list)
+    height = (fontsize) * len(text_list) + 3
+
+    # 创建一个空白图片，大小根据文字大小调整
+    image = Image.new('RGB', (width, height), color=background)
+
+    draw = ImageDraw.Draw(image)
+
+    # 使用PIL的ImageFont创建字体对象
+    font = ImageFont.truetype(font_path, fontsize)
+
+    # 遍历列表中的每个元素，并将其绘制到图片上
+    for i, text in enumerate(text_list):
+        draw.text((0, i * fontsize), text, font=font, fill=color)
+    image.save(workdir)
+    # image.show()
+    return image
 
 
 def main(comment_item: dict, workdir, save_name):
     comment_list = parse_comment_item(comment_item)
-    drew_comment(comment_list, workdir, save_name)
+    text_to_image(comment_list, workdir, save_name)
 
 
 if __name__ == '__main__':
-    pass
+    comment_item = {}
+    main(comment_item, workdir=r'C:\Users\Administrator\Desktop', save_name='1')
