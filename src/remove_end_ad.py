@@ -2,6 +2,8 @@ import cv2
 import os
 import numpy as np
 from tqdm import tqdm
+from rich import print
+from concurrent.futures import ThreadPoolExecutor
 
 
 # 通过得到RGB每个通道的直方图来计算相似度
@@ -44,34 +46,36 @@ def calculate(image1, image2):
     return degree
 
 
-def find_second_last_images(folder_path):
+def find_last_images(folder_path, last_num=-2):
     image_paths = []
 
     for root, dirs, files in os.walk(folder_path):
         if len(files) > 1:
             files = sorted(files, key=lambda x: int(x.split('.')[0]))
-            second_last_image = files[-2]
+            second_last_image = files[last_num]
             image_paths.append(os.path.join(root, second_last_image))
     return image_paths
 
 
+def contrast_pic(pic1, pic2):
+    # 图片对比
+    if os.path.isfile(pic1) and os.path.isfile(pic2) \
+            and pic2 not in ad_pics:
+        similarity = classify_hist_with_split(pic1, pic2)
+        # cv_num += 1
+        if similarity >= 0.8:
+            # print(f'{pic1}\n{pic2}\n{similarity}\n')
+            if pic1 not in ad_pics:
+                ad_pics.append(pic1)
+            if pic2 not in ad_pics:
+                ad_pics.append(pic2)
+
+
 def find_ad_pics(pics):
-    ad_pics = []
-    for pic1 in tqdm(pics, desc='查找尾页汉化组广告中...'):
-        # cv_num = 0
-        for pic2 in pics[pics.index(pic1) + 1:]:
-            if os.path.isfile(pic1) and os.path.isfile(pic2) \
-                    and pic2 not in ad_pics:
-                similarity = classify_hist_with_split(pic1, pic2)
-                # cv_num += 1
-                if similarity >= 0.8:
-                    # print(f'{pic1}\n{pic2}\n{similarity}\n')
-                    if pic1 not in ad_pics:
-                        ad_pics.append(pic1)
-                    if pic2 not in ad_pics:
-                        ad_pics.append(pic2)
-        # print(cv_num)
-    return ad_pics
+    with ThreadPoolExecutor(15) as f:
+        for pic1 in pics:
+            for pic2 in pics[pics.index(pic1) + 1:]:
+                f.submit(contrast_pic, pic1, pic2)
 
 
 def del_ad_pic(ad_pics):
@@ -80,14 +84,33 @@ def del_ad_pic(ad_pics):
 
 
 def main(workdir):
-    all_second_last_pic = find_second_last_images(workdir)
-    ad_pics = find_ad_pics(all_second_last_pic)
+    all_last_pic_2 = find_last_images(workdir, -2)
+    all_last_pic_3 = find_last_images(workdir, -3)
+    for pic_list in tqdm([all_last_pic_2, all_last_pic_3], desc='识别汉化组广告中...'):
+        find_ad_pics(pic_list)
+
     if len(ad_pics) != 0:
-        if input(f'找到{len(ad_pics)}话有广告图(准确度极高),是否删除(Y/n)>>>') in ['Y', 'y', '']:
+        print(f'找到[red]{len(ad_pics)}[/]张广告图(准确度极高)  (Y删除,n取消,r进入查看模式)>>>', end='')
+        user_choice = input()
+        if user_choice in ['Y', 'y', '']:
             del_ad_pic(ad_pics)
             print('删除成功!')
+        elif user_choice in ['r', 'R']:
+            open_num = 0
+            for ad_pic in ad_pics:
+                os.startfile(ad_pic)
+                open_num += 1
+                if open_num != 0 and open_num % 15 == 0:
+                    input('回车查看下十五张>>>')
+            user_choice = input('要删除吗  (Y/n)>>>')
+            if user_choice == ['Y', 'y']:
+                del_ad_pic(ad_pics)
+    else:
+        print('没发现广告')
+    print()
 
 
+ad_pics = []
 if __name__ == '__main__':
-    workdir = r'D:\pythoncode\代码\爬\copymanga_downloader\Download\今日，若是能與小柴葵相遇'
+    workdir = r'D:\pythoncode\代码\爬\copymanga_downloader\Download\神畫師JK與OL腐女'
     main(workdir)

@@ -14,6 +14,7 @@ def check_comic_pic_num(workdir):
         print('[green]下载完毕 无缺失页[/]')
     else:
         print(f'[red]{lose_pic_dirs} 话图片缺失![/]')
+    print()
 
 
 if __name__ == '__main__':
