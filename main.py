@@ -20,7 +20,19 @@ def write_global_info(domain, path_word):
         f.write(json.dumps(write_dict))
 
 
+def print_art_fort():
+    print("""\
+ ██████╗ ██████╗ ██████╗ ██╗   ██╗     ██████╗ ██╗     
+██╔════╝██╔═══██╗██╔══██╗╚██╗ ██╔╝     ██╔══██╗██║     
+██║     ██║   ██║██████╔╝ ╚████╔╝      ██║  ██║██║     
+██║     ██║   ██║██╔═══╝   ╚██╔╝       ██║  ██║██║     
+╚██████╗╚██████╔╝██║        ██║███████╗██████╔╝███████╗
+ ╚═════╝ ╚═════╝ ╚═╝        ╚═╝╚══════╝╚═════╝ ╚══════╝ by夕攘
+""")
+
+
 def main():
+    print_art_fort()
     while 1:
         url = input('输入漫画目录页网址>>>')
         # url = 'https://copymanga.site/comic/wufajujuedeta'

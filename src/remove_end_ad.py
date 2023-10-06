@@ -3,7 +3,7 @@ import os
 import numpy as np
 from tqdm import tqdm
 from rich import print
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
 # 通过得到RGB每个通道的直方图来计算相似度
@@ -63,19 +63,26 @@ def contrast_pic(pic1, pic2):
             and pic2 not in ad_pics:
         similarity = classify_hist_with_split(pic1, pic2)
         # cv_num += 1
-        if similarity >= 0.8:
+        if similarity >= 0.83:
             # print(f'{pic1}\n{pic2}\n{similarity}\n')
             if pic1 not in ad_pics:
                 ad_pics.append(pic1)
             if pic2 not in ad_pics:
                 ad_pics.append(pic2)
+        return pic1, pic2
+    # print('111')
 
 
 def find_ad_pics(pics):
+    futures = []
     with ThreadPoolExecutor(15) as f:
         for pic1 in pics:
             for pic2 in pics[pics.index(pic1) + 1:]:
-                f.submit(contrast_pic, pic1, pic2)
+                futures.append(f.submit(contrast_pic, pic1, pic2))
+        pbar = tqdm(total=len(futures), desc='识别汉化组广告中...')
+        for future in as_completed(futures):
+            # a = future.result()
+            pbar.update()
 
 
 def del_ad_pic(ad_pics):
@@ -83,11 +90,14 @@ def del_ad_pic(ad_pics):
         os.remove(ad_pic)
 
 
+
+
+
 def main(workdir):
     all_last_pic_2 = find_last_images(workdir, -2)
     all_last_pic_3 = find_last_images(workdir, -3)
-    for pic_list in tqdm([all_last_pic_2, all_last_pic_3], desc='识别汉化组广告中...'):
-        find_ad_pics(pic_list)
+    all_last_pic = all_last_pic_2 + all_last_pic_3
+    find_ad_pics(all_last_pic)
 
     if len(ad_pics) != 0:
         print(f'找到[red]{len(ad_pics)}[/]张广告图(准确度极高)  (Y删除,n取消,r进入查看模式)>>>', end='')
@@ -103,8 +113,9 @@ def main(workdir):
                 if open_num != 0 and open_num % 15 == 0:
                     input('回车查看下十五张>>>')
             user_choice = input('要删除吗  (Y/n)>>>')
-            if user_choice == ['Y', 'y']:
+            if user_choice in ['Y', 'y', '']:
                 del_ad_pic(ad_pics)
+                print('删除成功!')
     else:
         print('没发现广告')
     print()
@@ -112,5 +123,5 @@ def main(workdir):
 
 ad_pics = []
 if __name__ == '__main__':
-    workdir = r'D:\pythoncode\代码\爬\copymanga_downloader\Download\神畫師JK與OL腐女'
+    workdir = r'D:\pythoncode\代码\爬\copymanga_downloader\Download\住在附近的菜菜子小姐'
     main(workdir)
