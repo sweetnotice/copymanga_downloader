@@ -1,5 +1,5 @@
 from urllib.parse import urlparse
-from src import copymanga_parser
+from src import copymanga_parser, updata
 import json
 
 
@@ -27,12 +27,13 @@ def print_art_fort():
 ██║     ██║   ██║██████╔╝ ╚████╔╝      ██║  ██║██║     
 ██║     ██║   ██║██╔═══╝   ╚██╔╝       ██║  ██║██║     
 ╚██████╗╚██████╔╝██║        ██║███████╗██████╔╝███████╗
- ╚═════╝ ╚═════╝ ╚═╝        ╚═╝╚══════╝╚═════╝ ╚══════╝ by夕攘
-""")
+ ╚═════╝ ╚═════╝ ╚═╝        ╚═╝╚══════╝╚═════╝ ╚══════╝ by夕攘""")
 
 
 def main():
     print_art_fort()
+    updata.locked()
+    updata.main(25)
     while 1:
         url = input('输入漫画目录页网址>>>')
         # url = 'https://copymanga.site/comic/wufajujuedeta'
