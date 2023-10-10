@@ -50,7 +50,7 @@ def find_last_images(folder_path, last_num=-2):
     image_paths = []
 
     for root, dirs, files in os.walk(folder_path):
-        if len(files) > 1:
+        if len(files) > -last_num:
             files = sorted(files, key=lambda x: int(x.split('.')[0]))
             second_last_image = files[last_num]
             image_paths.append(os.path.join(root, second_last_image))
