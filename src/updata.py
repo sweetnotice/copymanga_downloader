@@ -1,13 +1,17 @@
-import requests, os
+import os
+import requests
 
 
 def main(commit_num):
     print('检查更新中...', end='')
-    resp = requests.get('https://api.github.com/repos/sweetnotice/copymanga_downloader/commits').json()
-    if len(resp) > commit_num:
-        print('\r有更新了  https://github.com/sweetnotice/copymanga_downloader 点击查看', flush=True)
-    else:
-        print('\r软件已经是最新版!', flush=True)
+    try:
+        resp = requests.get('https://api.github.com/repos/sweetnotice/copymanga_downloader/commits', timeout=3).json()
+        if len(resp) > commit_num:
+            print('\r有更新了  https://github.com/sweetnotice/copymanga_downloader 点击查看', flush=True)
+        else:
+            print('\r软件已经是最新版!', flush=True)
+    except:
+        print('\r更新获取失败!', flush=True)
 
 
 def locked():

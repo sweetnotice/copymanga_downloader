@@ -90,9 +90,6 @@ def del_ad_pic(ad_pics):
         os.remove(ad_pic)
 
 
-
-
-
 def main(workdir):
     all_last_pic_2 = find_last_images(workdir, -2)
     all_last_pic_3 = find_last_images(workdir, -3)

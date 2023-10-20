@@ -26,7 +26,7 @@ def text_to_image(text_list, workdir, save_name,
     workdir = os.path.join(workdir, f'{save_name}.jpg')
     # 计算图片大小
     width = (fontsize - 1) * max(len(text) for text in text_list)
-    height = (fontsize) * len(text_list) + 3
+    height = (fontsize) * len(text_list) + 5
 
     # 创建一个空白图片，大小根据文字大小调整
     image = Image.new('RGB', (width, height), color=background)
@@ -50,5 +50,5 @@ def main(comment_item: dict, workdir, save_name):
 
 
 if __name__ == '__main__':
-    comment_item = {}
+    comment_item = {'123123': '好看好看', 'dsadasd': '太好看了'}
     main(comment_item, workdir=r'C:\Users\Administrator\Desktop', save_name='1')
