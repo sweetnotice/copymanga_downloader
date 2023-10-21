@@ -33,7 +33,7 @@ def print_art_fort():
 def main():
     print_art_fort()
     # updata.locked()
-    updata.main(26)
+    updata.main(30)
     while 1:
         url = input('输入漫画目录页网址>>>')
         # url = 'https://copymanga.site/comic/wufajujuedeta'
