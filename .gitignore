@@ -5,3 +5,5 @@ config.json
 dist/
 build/
 password.pwd
+*.xml
+idea/

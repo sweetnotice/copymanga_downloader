@@ -1,9 +1,11 @@
 import cv2
 import os
+import shutil
 import numpy as np
 from tqdm import tqdm
 from rich import print
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from spider_toolbox import file_tools
 
 
 # 通过得到RGB每个通道的直方图来计算相似度
@@ -85,34 +87,46 @@ def find_ad_pics(pics):
             pbar.update()
 
 
-def del_ad_pic(ad_pics):
-    for ad_pic in ad_pics:
-        os.remove(ad_pic)
+class Del_pic_menu:
+    def __init__(self, ad_pics):
+        self.desktop_ad_path = None
+        self.ad_pics = ad_pics
+
+    def del_ad_pic(self):
+        ad_lists = []
+        # 从桌面文件夹中获取文件 文件夹里的文件名就是ad_pics中的序号
+        for ad_pic_list in os.listdir(self.desktop_ad_path):
+            ad_pic_list = int(ad_pic_list.replace('.jpg', ''))
+            ad_lists.append(self.ad_pics[ad_pic_list])
+        for ad_pic in ad_lists:
+            os.remove(ad_pic)
+        file_tools.del_dir(self.desktop_ad_path, mode=2)
+
+    def save_pic_in_desktop(self):
+        self.desktop_ad_path = os.path.join(file_tools.get_path(desktop=True), '广告')
+        file_tools.mkdir(self.desktop_ad_path)
+        for i, ad_pic in enumerate(self.ad_pics):
+            shutil.copy(ad_pic, os.path.join(self.desktop_ad_path, f'{i}.jpg'))
+
+    def main(self):
+        print(f'找到[red]{len(self.ad_pics)}[/]张广告图')
+        self.save_pic_in_desktop()
+        user_choice = input('已保存在桌面  删除其中误判部分后回车>>>')
+        if user_choice in ['Y', 'y', '']:
+            self.del_ad_pic()
+            print('删除成功!')
 
 
 def main(workdir):
+    if input('是否需要删除汉化组广告 (Y|n)>>>') not in ['y', 'Y', '']:
+        return
     all_last_pic_2 = find_last_images(workdir, -2)
     all_last_pic_3 = find_last_images(workdir, -3)
     all_last_pic = all_last_pic_2 + all_last_pic_3
     find_ad_pics(all_last_pic)
 
-    if len(ad_pics) != 0:
-        print(f'找到[red]{len(ad_pics)}[/]张广告图(准确度极高)  (Y删除,n取消,r进入查看模式)>>>', end='')
-        user_choice = input()
-        if user_choice in ['Y', 'y', '']:
-            del_ad_pic(ad_pics)
-            print('删除成功!')
-        elif user_choice in ['r', 'R']:
-            open_num = 0
-            for ad_pic in ad_pics:
-                os.startfile(ad_pic)
-                open_num += 1
-                if open_num != 0 and open_num % 15 == 0:
-                    input('回车查看下十五张>>>')
-            user_choice = input('要删除吗  (Y/n)>>>')
-            if user_choice in ['Y', 'y', '']:
-                del_ad_pic(ad_pics)
-                print('删除成功!')
+    if len(ad_pics) >= 3:
+        Del_pic_menu(ad_pics).main()
     else:
         print('没发现广告')
     print()
@@ -120,5 +134,6 @@ def main(workdir):
 
 ad_pics = []
 if __name__ == '__main__':
-    workdir = r'D:\pythoncode\代码\爬\copymanga_downloader\Download\住在附近的菜菜子小姐'
+    workdir = r'D:\pythoncode\代码\爬\copymanga_downloader\Download\田所同學'
+    # workdir = r'D:\pythoncode\代码\爬\copymanga_downloader\Download\神畫師JK與OL腐女'
     main(workdir)
