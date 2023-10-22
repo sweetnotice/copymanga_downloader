@@ -7,3 +7,5 @@ build/
 password.pwd
 *.xml
 idea/
+config.json
+src/global_web_info.json
