@@ -89,8 +89,8 @@ def find_ad_pics(pics):
 
 class Del_pic_menu:
     def __init__(self, ad_pics):
-        self.desktop_ad_path = None
         self.ad_pics = ad_pics
+        self.desktop_ad_path = os.path.join(file_tools.get_path(desktop=True), '广告')
 
     def del_ad_pic(self):
         ad_lists = []
@@ -103,7 +103,6 @@ class Del_pic_menu:
         file_tools.del_dir(self.desktop_ad_path, mode=2)
 
     def save_pic_in_desktop(self):
-        self.desktop_ad_path = os.path.join(file_tools.get_path(desktop=True), '广告')
         file_tools.mkdir(self.desktop_ad_path)
         for i, ad_pic in enumerate(self.ad_pics):
             shutil.copy(ad_pic, os.path.join(self.desktop_ad_path, f'{i}.jpg'))

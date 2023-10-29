@@ -1,4 +1,5 @@
 import re
+import os
 import json
 from spider_toolbox import requests_tools
 from src import result_decrypt
@@ -13,6 +14,7 @@ def get_global_web_infos():
         web_info = json.loads(f.read())
         domain = web_info['domain']
         path_word = web_info['path_word']
+    os.remove('src/global_web_info.json')
     return domain, path_word
 
 

@@ -13,10 +13,9 @@
 ![](README_md_files/a6d17b70-4a11-11ee-b416-f5e0ee161af8.jpeg?v=1&type=image)
 ![](README_md_files/42439c10-6127-11ee-9130-ebfc613c0c36.jpeg?v=1&type=image)
 ![](README_md_files/7bead980-6774-11ee-98e6-535fc83230f7.jpeg?v=1&type=image)
-## 密码获取
-![](README_md_files/b65908c0-6a45-11ee-b06d-0d8a7aea3c32.jpeg?v=1&type=image)
-欢迎来闲鱼找我代下载,或者购买密码
  ## 食用说明
  1. 右上角下载zip,解压打开,在当前窗口打开cmd
  2. 输入 `pip install -r requirements.txt`
  3. 双击 .bat 程序 运行!!!
+## 闲鱼小店 欢迎找我代下
+![](README_md_files/b65908c0-6a45-11ee-b06d-0d8a7aea3c32.jpeg?v=1&type=image)

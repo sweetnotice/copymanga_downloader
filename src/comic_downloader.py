@@ -3,8 +3,7 @@ import time
 from rich import print
 from spider_toolbox import requests_tools, file_tools
 from concurrent.futures import ThreadPoolExecutor
-from src import drew_comment_pic, check_comic_download,remove_end_ad
-from src.config_info import download_path
+from src import drew_comment_pic, check_comic_download, remove_end_ad, config_info
 
 
 def download(url, workdir, name):
@@ -22,7 +21,7 @@ def download(url, workdir, name):
         print(f'[red]{workdir} 下载出错[/]')
 
 
-download_path = download_path
+download_path = config_info.download_path
 
 
 class Comic_downloader:
@@ -61,7 +60,7 @@ class Comic_downloader:
                 self.chapter_index += 1
 
     def main(self):
-        self.thread_downloader(thread_num=3)
+        self.thread_downloader(thread_num=config_info.down_thread_num)
         # 核对下载数量
         check_comic_download.check_comic_pic_num(self.workdir)
         # 删除汉化组广告
