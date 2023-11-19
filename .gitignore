@@ -7,3 +7,5 @@ password.pwd
 *.xml
 idea/
 *.pyc
+*.spec
+.idea/

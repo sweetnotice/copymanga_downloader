@@ -45,6 +45,9 @@ def text_to_image(text_list, workdir, save_name,
 
 
 def main(comment_item: dict, workdir, save_name):
+    """
+    :param comment_item: {用户名:评论}
+    """
     comment_list = parse_comment_item(comment_item)
     text_to_image(comment_list, workdir, save_name)
 

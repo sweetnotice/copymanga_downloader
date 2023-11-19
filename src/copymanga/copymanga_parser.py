@@ -2,14 +2,26 @@ import re
 import os
 from rich import print
 from tqdm import tqdm
-from src import comic_downloader, copymanga_api
-from src.config_info import download_path
+from urllib.parse import urlparse
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from src.copymanga import copymanga_api, copymanga_comic_downloader
+from src.config_info import download_path, parser_thread_num
+from spider_toolbox.file_tools import format_str
+
+
+def parse_input_url(url):
+    # https://copymanga.site/comic/wufajujuedeta#
+    path_word = url.split('/')[-1].replace('#', '')
+    domain = urlparse(url).netloc
+    print(f'域名:{domain}  |  关键词:{path_word}\n')
+    return domain, path_word
 
 
 class Copy_manga_parser:
-    def __init__(self):
-        self.copy_manga_api = copymanga_api.Copymange_api()
-        self.comic_name = self.copy_manga_api.get_comic_name()
+    def __init__(self, url):
+        domain, path_word = parse_input_url(url)
+        self.copy_manga_api = copymanga_api.Copymange_api(domain, path_word)
+        self.comic_name = format_str(self.copy_manga_api.get_comic_name())
         self.comic_detail = {'默认': [{'name': '第一话', 'type': '话', 'id': 'id'}]}
         self.all_chapter_name_id = {'第一话': 'id', '第二话': 'id'}
         self.comic_detail, self.all_chapter_name_id = {}, {}
@@ -24,7 +36,7 @@ class Copy_manga_parser:
             comic_chapters_list = []
             group_name = item['name']
             for chapter in item['chapters']:
-                comic_chapter = {'name': chapter['name'],
+                comic_chapter = {'name': format_str(chapter['name']),
                                  'type': comic_type[str(chapter['type'])],
                                  'id': chapter['id']}
                 comic_chapters_list.append(comic_chapter)
@@ -88,11 +100,26 @@ class Copy_manga_parser:
         return pic_lists
 
     def get_chapters_pic_comment(self, down_chapter_infos: dict):
-        # 获取每话图片地址和评论 {话:{pic_url:[图片链接],comment:{用户名:评论}}}
+        # 获取每话图片地址和评论 {序号_话名:{pic_url:[图片链接],comment:{用户名:评论}}}
+        def get_chapters_pic_comment_func(chapter_id, index, chapter_title, pic_comments_dict: dict):
+            pic_comments_dict[f'{index}_{chapter_title}'] = \
+                {'pic_url': self.get_pic(chapter_id),
+                 'comment': self.get_comment(chapter_id)}
+
         chapter_pic_comments = {}
-        for chapter_title, chapter_id in tqdm(down_chapter_infos.items(), desc='漫画解析中...'):
-            chapter_pic_comments[chapter_title] = {'pic_url': self.get_pic(chapter_id),
-                                                   'comment': self.get_comment(chapter_id)}
+        futures = []
+        with ThreadPoolExecutor(parser_thread_num) as f:
+            for chapter_title, chapter_id in down_chapter_infos.items():
+                futures.append(
+                    f.submit(get_chapters_pic_comment_func,
+                             chapter_id,
+                             self.start_chapter_index,
+                             chapter_title,
+                             chapter_pic_comments))
+                self.start_chapter_index += 1
+            pbar = tqdm(total=len(futures), desc='漫画解析中...')
+            for future in as_completed(futures):
+                pbar.update()
         return chapter_pic_comments
 
     def main(self):
@@ -102,7 +129,8 @@ class Copy_manga_parser:
             # 需要下载的话合集 {name:id}
             down_chapter_infos = self.user_choose()
             chapter_pic_comments = self.get_chapters_pic_comment(down_chapter_infos)
-            comic_downloader.Comic_downloader(self.comic_name, chapter_pic_comments, self.start_chapter_index).main()
+            copymanga_comic_downloader.Comic_downloader(self.comic_name, chapter_pic_comments,
+                                                        self.start_chapter_index).main()
 
 
 if __name__ == '__main__':

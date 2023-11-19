@@ -1,9 +1,11 @@
+crypto==1.4.1
+numpy==1.25.2
+opencv-python==4.8.1.78
+Pillow==10.0.1
 pycryptodome==3.15.0
-Requests==2.31.0
+PyExecJS==1.5.1
+Pygments==2.16.1
+requests==2.31.0
 rich==13.5.2
-spider_toolbox
+spider-toolbox==0.0.20
 tqdm==4.66.1
-opencv-python~=4.8.1.78
-numpy~=1.25.2
-crypto~=1.4.1
-Pillow~=10.0.0

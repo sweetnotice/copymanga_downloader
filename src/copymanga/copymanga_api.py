@@ -1,26 +1,15 @@
 import re
-import os
-import json
 from spider_toolbox import requests_tools
-from src import result_decrypt
+from src.copymanga import result_decrypt
 
 headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36',
 }
 
 
-def get_global_web_infos():
-    with open(r'src/global_web_info.json', encoding='utf-8', mode='r') as f:
-        web_info = json.loads(f.read())
-        domain = web_info['domain']
-        path_word = web_info['path_word']
-    os.remove('src/global_web_info.json')
-    return domain, path_word
-
-
 class Copymange_api:
-    def __init__(self):
-        self.domain, self.path_word = get_global_web_infos()
+    def __init__(self, domain, path_word):
+        self.domain, self.path_word = domain, path_word
         self.retry_num = 5
         self.timeout = 3
 

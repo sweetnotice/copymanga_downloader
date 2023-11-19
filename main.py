@@ -1,23 +1,5 @@
-from urllib.parse import urlparse
-from src import copymanga_parser, updata, config_info
-import json
-
-
-def init_url(url: str):
-    # https://copymanga.site/comic/wufajujuedeta#
-    if 'copymanga' in url:
-        domain = urlparse(url).netloc
-        path_word = url.split('/')[-1].replace('#', '')
-    else:
-        raise '你这输的啥?'
-    print(f'域名:{domain}  |  关键词:{path_word}\n')
-    return domain, path_word
-
-
-def write_global_info(domain, path_word):
-    write_dict = {"domain": domain, "path_word": path_word}
-    with open('src/global_web_info.json', 'w', encoding='utf-8') as f:
-        f.write(json.dumps(write_dict))
+from src import updata, config_info
+from src.copymanga import copymanga_parser
 
 
 def print_art_fort():
@@ -33,15 +15,18 @@ def print_art_fort():
 def main():
     print_art_fort()
     # updata.locked()
-    updata.main(32)
-    print(f'下载路径: {config_info.download_path} | 线程数: {config_info.down_thread_num}')
+    updata.main(31)
+    print(
+        f'下载路径: {config_info.download_path} | '
+        f'解析线程数 : {config_info.parser_thread_num} | '
+        f'下载线程数: {config_info.down_thread_num}')
     while 1:
         url = input('输入漫画目录页网址>>>')
         # url = 'https://copymanga.site/comic/wufajujuedeta'
         # url = 'https://www.copymanga.site/comic/lianyuqingchang'
-        domain, path_word = init_url(url)
-        write_global_info(domain, path_word)
-        copymanga_parser.Copy_manga_parser().main()
+        # domain, path_word = init_url(url)
+        if 'copymanga' in url:
+            copymanga_parser.Copy_manga_parser(url).main()
 
 
 if __name__ == '__main__':
