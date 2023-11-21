@@ -15,7 +15,7 @@ def print_art_fort():
 def main():
     print_art_fort()
     # updata.locked()
-    updata.main(31)
+    updata.main(32)
     print(
         f'下载路径: {config_info.download_path} | '
         f'解析线程数 : {config_info.parser_thread_num} | '
