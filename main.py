@@ -1,3 +1,4 @@
+import vthread
 from src import updata, config_info
 from src.copymanga import copymanga_parser
 
@@ -13,6 +14,7 @@ def print_art_fort():
 
 
 def main():
+    vthread.toggle()
     print_art_fort()
     # updata.locked()
     updata.main(32)

@@ -1,9 +1,9 @@
 import re
 import os
+import vthread
 from rich import print
 from tqdm import tqdm
 from urllib.parse import urlparse
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from src.copymanga import copymanga_api, copymanga_comic_downloader
 from src.config_info import download_path, parser_thread_num
 from spider_toolbox.file_tools import format_str
@@ -85,6 +85,7 @@ class Copy_manga_parser:
         # 获取一话评论  {用户名:评论}
         comment_items = {}
         comment_detail = self.copy_manga_api.get_chapter_comment(chapter_id)
+        comment_detail.reverse()  # 按照评论发布顺序排列
         for comment_item in comment_detail:
             comment_user_name = comment_item['user_name']
             comment_data = comment_item['comment']
@@ -101,25 +102,23 @@ class Copy_manga_parser:
 
     def get_chapters_pic_comment(self, down_chapter_infos: dict):
         # 获取每话图片地址和评论 {序号_话名:{pic_url:[图片链接],comment:{用户名:评论}}}
-        def get_chapters_pic_comment_func(chapter_id, index, chapter_title, pic_comments_dict: dict):
+        @vthread.pool(parser_thread_num)
+        def get_chapters_pic_comment_func(chapter_id, index, chapter_title, pic_comments_dict: dict, pbar):
             pic_comments_dict[f'{index}_{chapter_title}'] = \
                 {'pic_url': self.get_pic(chapter_id),
                  'comment': self.get_comment(chapter_id)}
+            pbar.update()
 
         chapter_pic_comments = {}
-        futures = []
-        with ThreadPoolExecutor(parser_thread_num) as f:
-            for chapter_title, chapter_id in down_chapter_infos.items():
-                futures.append(
-                    f.submit(get_chapters_pic_comment_func,
-                             chapter_id,
-                             self.start_chapter_index,
-                             chapter_title,
-                             chapter_pic_comments))
-                self.start_chapter_index += 1
-            pbar = tqdm(total=len(futures), desc='漫画解析中...')
-            for future in as_completed(futures):
-                pbar.update()
+        pbar = tqdm(total=len(down_chapter_infos), desc='漫画解析中...')
+        for chapter_title, chapter_id in down_chapter_infos.items():
+            get_chapters_pic_comment_func(chapter_id,
+                                          self.start_chapter_index,
+                                          chapter_title,
+                                          chapter_pic_comments,
+                                          pbar)
+            self.start_chapter_index += 1
+        vthread.pool.waitall()
         return chapter_pic_comments
 
     def main(self):

@@ -1,8 +1,10 @@
 import os
+import vthread
 from rich import print
 from spider_toolbox import requests_tools, file_tools
 
 
+# @vthread.pool(20)
 def download(url, workdir, name):
     resp = requests_tools.byte_downloader(url,
                                           workdir=workdir,

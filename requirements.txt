@@ -9,3 +9,4 @@ requests==2.31.0
 rich==13.5.2
 spider-toolbox==0.0.20
 tqdm==4.66.1
+vthread
