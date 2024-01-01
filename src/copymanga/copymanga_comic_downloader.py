@@ -1,5 +1,4 @@
 import os
-import vthread
 from spider_toolbox import file_tools
 from concurrent.futures import ThreadPoolExecutor
 from src import drew_comment_pic, check_comic_download, remove_end_ad, config_info, pic_downloader
@@ -8,7 +7,7 @@ download_path = config_info.download_path
 
 
 class Comic_downloader:
-    def __init__(self, comic_name, chapter_pic_comments, start_chapter_index):
+    def __init__(self, comic_name, chapter_pic_comments):
         self.chapter_pic_comments = chapter_pic_comments
         # self.chapter_index = start_chapter_index  # 开始下载章节序号
         self.comic_name = file_tools.format_str(comic_name)
@@ -18,10 +17,8 @@ class Comic_downloader:
         self.workdir = os.path.join(download_path, self.comic_name)
         file_tools.mkdir(self.workdir)
 
-    @vthread.pool(config_info.down_thread_num)
     def one_chapter_downloader(self, title, pic_comment_item, thread_num: 20):
         # 创建二级目录 话目录
-
         workdir = os.path.join(self.workdir, file_tools.format_str(f'{title}'))
         file_tools.mkdir(workdir)
         with ThreadPoolExecutor(thread_num) as f:
@@ -33,15 +30,14 @@ class Comic_downloader:
             drew_comment_pic.main(comments, workdir, str(i + 1))
 
     def thread_downloader(self):
-        for title, pic_comment_item in self.chapter_pic_comments.items():
-            self.one_chapter_downloader(
-                title,
-                pic_comment_item,
-                20)
-        vthread.pool.waitall()
+        with ThreadPoolExecutor(config_info.down_thread_num) as f:
+            for title, pic_comment_item in self.chapter_pic_comments.items():
+                f.submit(self.one_chapter_downloader,
+                         title,
+                         pic_comment_item,
+                         20)
 
     def main(self):
-
         self.thread_downloader()
         # 核对下载数量
         check_comic_download.check_comic_pic_num(self.workdir)

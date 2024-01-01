@@ -1,7 +1,7 @@
 import os
-import vthread
 from rich import print
 from spider_toolbox import requests_tools, file_tools
+from src import ai_image_processor, config_info
 
 
 # @vthread.pool(20)
@@ -14,7 +14,16 @@ def download(url, workdir, name):
                                           retry_num=20,
                                           retry_sleep=1)
     workdir = os.path.join(workdir, name) + '.jpg'
+    if config_info.use_ai_process_img == 1:
+        ai_image_processor.processor(workdir)
+    # print(f'{workdir}优化完成')
     if resp:
         print(f'[white]{workdir}下载完成[/]\n', end='')
     else:
         print(f'[red]{workdir} 下载出错[/]')
+
+
+if __name__ == '__main__':
+    download(r'https://hi77-overseas.mangafuna.xyz/gudubianji/cover/1651124428.jpg.328x422.jpg',
+             r'C:\Users\Administrator\Desktop',
+             '111')

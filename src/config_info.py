@@ -9,7 +9,8 @@ def get_configs():
         download_path = config['下载路径(使用左斜杠)']
         config_infos = {'download_path': config['下载路径(使用左斜杠)'],
                         'parser_thread_num': config['同时解析话'],
-                        'down_thread_num': config['同时下载话']}
+                        'down_thread_num': config['同时下载话'],
+                        'use_ai_process_img': int(config['ai提升画质(1开启|2关闭)'])}
 
     if not os.path.isdir(download_path):
         file_tools.mkdir(download_path)
@@ -24,3 +25,7 @@ download_path = config_infos['download_path']
 parser_thread_num = config_infos['parser_thread_num']
 # 下载线程数
 down_thread_num = config_infos['down_thread_num']
+# 使用ai提升画质
+use_ai_process_img = config_infos['use_ai_process_img']
+if use_ai_process_img == 1:
+    down_thread_num = 1

@@ -85,7 +85,7 @@ class Copy_manga_parser:
         # 获取一话评论  {用户名:评论}
         comment_items = {}
         comment_detail = self.copy_manga_api.get_chapter_comment(chapter_id)
-        comment_detail.reverse()  # 按照评论发布顺序排列
+        # comment_detail.reverse()  # 按照评论发布顺序排列  评论者似乎是从下往上的 楼上全部变成了楼下
         for comment_item in comment_detail:
             comment_user_name = comment_item['user_name']
             comment_data = comment_item['comment']
@@ -128,8 +128,7 @@ class Copy_manga_parser:
             # 需要下载的话合集 {name:id}
             down_chapter_infos = self.user_choose()
             chapter_pic_comments = self.get_chapters_pic_comment(down_chapter_infos)
-            copymanga_comic_downloader.Comic_downloader(self.comic_name, chapter_pic_comments,
-                                                        self.start_chapter_index).main()
+            copymanga_comic_downloader.Comic_downloader(self.comic_name, chapter_pic_comments).main()
 
 
 if __name__ == '__main__':
