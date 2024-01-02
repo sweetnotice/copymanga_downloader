@@ -8,10 +8,8 @@ def processor(input_img, scale: int = 2):
     output_img = f'{input_img}_1.jpg'
     command = f'{exe_path} -i {input_img} -o {output_img} -s {scale}'
     subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    with open(input_img, 'wb') as f, open(output_img, 'rb') as ff:
-        process_bite = ff.read()
-        f.write(process_bite)
-    os.remove(output_img)
+    os.remove(input_img)
+    os.rename(output_img, input_img)
     # print(f'{input_img} 优化成功')
 
 
@@ -22,4 +20,4 @@ def launcher(input_img, scale: int = 2):
 
 
 if __name__ == '__main__':
-    launcher(r'C:\Users\Administrator\Desktop\1.jpg')
+    launcher(r'C:\Users\Administrator\Desktop\1647050818170007.jpg.c1500x.jpg')

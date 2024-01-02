@@ -28,4 +28,4 @@ down_thread_num = config_infos['down_thread_num']
 # 使用ai提升画质
 use_ai_process_img = config_infos['use_ai_process_img']
 if use_ai_process_img == 1:
-    down_thread_num = 1
+    down_thread_num = 2

@@ -1,6 +1,6 @@
 import re
 import os
-import vthread
+from concurrent.futures import ThreadPoolExecutor
 from rich import print
 from tqdm import tqdm
 from urllib.parse import urlparse
@@ -102,7 +102,6 @@ class Copy_manga_parser:
 
     def get_chapters_pic_comment(self, down_chapter_infos: dict):
         # 获取每话图片地址和评论 {序号_话名:{pic_url:[图片链接],comment:{用户名:评论}}}
-        @vthread.pool(parser_thread_num)
         def get_chapters_pic_comment_func(chapter_id, index, chapter_title, pic_comments_dict: dict, pbar):
             pic_comments_dict[f'{index}_{chapter_title}'] = \
                 {'pic_url': self.get_pic(chapter_id),
@@ -111,14 +110,15 @@ class Copy_manga_parser:
 
         chapter_pic_comments = {}
         pbar = tqdm(total=len(down_chapter_infos), desc='漫画解析中...')
-        for chapter_title, chapter_id in down_chapter_infos.items():
-            get_chapters_pic_comment_func(chapter_id,
-                                          self.start_chapter_index,
-                                          chapter_title,
-                                          chapter_pic_comments,
-                                          pbar)
+        with ThreadPoolExecutor(parser_thread_num) as f:
+            for chapter_title, chapter_id in down_chapter_infos.items():
+                f.submit(get_chapters_pic_comment_func,
+                         chapter_id,
+                         self.start_chapter_index,
+                         chapter_title,
+                         chapter_pic_comments,
+                         pbar)
             self.start_chapter_index += 1
-        vthread.pool.waitall()
         return chapter_pic_comments
 
     def main(self):
