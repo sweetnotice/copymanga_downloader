@@ -1,7 +1,7 @@
 import os
 from spider_toolbox import file_tools
 from concurrent.futures import ThreadPoolExecutor
-from src import drew_comment_pic, check_comic_download, remove_end_ad, config_info, pic_downloader
+from src import drew_comment_pic, check_comic_download, remove_end_ad, config_info, pic_downloader,ai_image_processor
 
 download_path = config_info.download_path
 
@@ -43,6 +43,8 @@ class Comic_downloader:
         check_comic_download.check_comic_pic_num(self.workdir)
         # 删除汉化组广告
         remove_end_ad.main(self.workdir)
+        # ai优化
+        ai_image_processor.main(self.workdir)
 
 
 if __name__ == '__main__':

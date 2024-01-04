@@ -118,7 +118,7 @@ class Copy_manga_parser:
                          chapter_title,
                          chapter_pic_comments,
                          pbar)
-            self.start_chapter_index += 1
+                self.start_chapter_index += 1
         return chapter_pic_comments
 
     def main(self):

@@ -1,7 +1,6 @@
 import os
 from rich import print
 from spider_toolbox import requests_tools, file_tools
-from src import ai_image_processor, config_info
 
 
 # @vthread.pool(20)
@@ -14,9 +13,6 @@ def download(url, workdir, name):
                                           retry_num=20,
                                           retry_sleep=1)
     workdir = os.path.join(workdir, name) + '.jpg'
-    if config_info.use_ai_process_img == 1:
-        ai_image_processor.processor(workdir)
-    # print(f'{workdir}优化完成')
     if resp:
         print(f'[white]{workdir}下载完成[/]\n', end='')
     else:
