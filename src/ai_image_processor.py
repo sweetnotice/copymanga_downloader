@@ -1,6 +1,7 @@
 import os, subprocess
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
+import time
 
 
 def get_images(workdir):
@@ -20,6 +21,7 @@ def processor(input_img, pbar, scale):
     output_img = f'{input_img}_1.jpg'
     command = f'{exe_path} -i {input_img} -o {output_img} -s {scale}'
     subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    # os.system(command)
     os.remove(input_img)
     os.rename(output_img, input_img)
     pbar.update()
@@ -33,6 +35,7 @@ def thread_launcher(img_lists, scale, thread_num):
     pbar = tqdm(total=len(img_lists), desc='ai超分中...')
     with ThreadPoolExecutor(thread_num) as f:
         for img in img_lists:
+            time.sleep(0.1)
             f.submit(processor,
                      img,
                      pbar,
@@ -47,9 +50,9 @@ def main(workdir, scale: int = 2, thread_num: int = 10):
     img_lists = get_images(workdir)
     thread_launcher(img_lists,
                     scale,
-                    thread_num)
+                    5)
 
 
 if __name__ == '__main__':
     # launcher(r'C:\Users\Administrator\Desktop\1647050818170007.jpg.c1500x.jpg')
-    main(r'D:\漫画\雙子百合合集')
+    main(r'D:\漫画\金槍魚妹妹想被人吃掉')

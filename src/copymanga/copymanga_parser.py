@@ -6,7 +6,11 @@ from tqdm import tqdm
 from urllib.parse import urlparse
 from src.copymanga import copymanga_api, copymanga_comic_downloader
 from src.config_info import download_path, parser_thread_num
-from spider_toolbox.file_tools import format_str
+# from spider_toolbox.file_tools import format_str
+
+
+def del_str_special_words(text):
+    return re.sub('[^A-Za-z0-9\u4e00-\u9fff_]+', '', text)
 
 
 def parse_input_url(url):
@@ -21,7 +25,7 @@ class Copy_manga_parser:
     def __init__(self, url):
         domain, path_word = parse_input_url(url)
         self.copy_manga_api = copymanga_api.Copymange_api(domain, path_word)
-        self.comic_name = format_str(self.copy_manga_api.get_comic_name())
+        self.comic_name = del_str_special_words(self.copy_manga_api.get_comic_name())
         self.comic_detail = {'默认': [{'name': '第一话', 'type': '话', 'id': 'id'}]}
         self.all_chapter_name_id = {'第一话': 'id', '第二话': 'id'}
         self.comic_detail, self.all_chapter_name_id = {}, {}
@@ -36,7 +40,7 @@ class Copy_manga_parser:
             comic_chapters_list = []
             group_name = item['name']
             for chapter in item['chapters']:
-                comic_chapter = {'name': format_str(chapter['name']),
+                comic_chapter = {'name': del_str_special_words(chapter['name']),
                                  'type': comic_type[str(chapter['type'])],
                                  'id': chapter['id']}
                 comic_chapters_list.append(comic_chapter)
