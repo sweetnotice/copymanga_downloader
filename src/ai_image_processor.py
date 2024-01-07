@@ -1,7 +1,31 @@
-import os, subprocess
-from tqdm import tqdm
-from concurrent.futures import ThreadPoolExecutor
+import os
+import subprocess
 import time
+from concurrent.futures import ThreadPoolExecutor
+from PIL import Image
+from tqdm import tqdm
+
+
+def get_avg_resolution(img_lists):
+    def get_resolution(image_path):
+        # 查看清晰度
+        img = Image.open(image_path)
+        width, height = img.size
+        return width, height
+
+    import random
+    random_img = random.sample(img_lists, int(len(img_lists) / 2.5))  # 随机取图片
+    resolution_list = [get_resolution(i) for i in random_img]
+    widths = [width for width, height in resolution_list]
+    heights = [height for width, height in resolution_list]
+
+    total_width = sum(widths)
+    total_height = sum(heights)
+    avg_resolution = (int(total_width / len(random_img)), int(total_height / len(random_img)))
+    # print(total_width)
+    # print(total_height)
+    # print(avg_resolution)
+    return avg_resolution
 
 
 def get_images(workdir):
@@ -15,11 +39,11 @@ def get_images(workdir):
     return img_lists
 
 
-def processor(input_img, pbar, scale):
+def processor(input_img, scale, pbar):
     exe_path = r'tool/realesrgan-ncnn-vulkan/realesrgan-ncnn-vulkan.exe'
     # exe_path = r'D:\pythoncode\代码\爬\copymanga_downloader\tool\realesrgan-ncnn-vulkan\realesrgan-ncnn-vulkan.exe'
     output_img = f'{input_img}_1.jpg'
-    command = f'{exe_path} -i {input_img} -o {output_img} -s {scale}'
+    command = f'{exe_path} -i {input_img} -o {output_img} -s {scale} -j 4:4:4'
     subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     # os.system(command)
     os.remove(input_img)
@@ -29,30 +53,33 @@ def processor(input_img, pbar, scale):
 
 
 def thread_launcher(img_lists, scale, thread_num):
-    # 占用太高了
-    # threading.Thread(target=processor, args=(input_img,
-    #                                          scale)).start()
     pbar = tqdm(total=len(img_lists), desc='ai超分中...')
     with ThreadPoolExecutor(thread_num) as f:
         for img in img_lists:
             time.sleep(0.1)
             f.submit(processor,
                      img,
-                     pbar,
-                     scale)
+                     scale,
+                     pbar)
 
 
 def main(workdir, scale: int = 2, thread_num: int = 10):
-    user_input = input('是否需要ai优化图片,可能会耗时比较长(Y|n)>>>')
+    img_lists = get_images(workdir)
+    avg_resolution = get_avg_resolution(img_lists)
+    user_input = input(
+        f'平均像素{avg_resolution}\n'
+        f'是否需要ai优化图片,预计耗时{round(len(img_lists) / 60, 1)}分 (Y|n)>>>')
     if user_input not in ['y', '', 'Y']:
         return
         # print(img_lists)
-    img_lists = get_images(workdir)
+
     thread_launcher(img_lists,
                     scale,
-                    5)
+                    4)
 
 
 if __name__ == '__main__':
     # launcher(r'C:\Users\Administrator\Desktop\1647050818170007.jpg.c1500x.jpg')
-    main(r'D:\漫画\金槍魚妹妹想被人吃掉')
+    # main(r'C:\Users\Administrator\Desktop\好一個變態')
+    main(r'D:\漫画\海貓鳴泣之時EP3')
+    # avg_resolution(get_images(r'C:\Users\Administrator\Desktop\好一個變態'))
