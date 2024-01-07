@@ -10,7 +10,7 @@ headers = {
 class Copymange_api:
     def __init__(self, domain, path_word):
         self.domain, self.path_word = domain, path_word
-        self.retry_num = 5
+        self.retry_num = 10
         self.timeout = 3
 
     def get_comic_name(self):
@@ -51,8 +51,10 @@ class Copymange_api:
             '_update': 'true',
         }
         domain = self.domain.replace('www.', '')
-        resp = requests_tools.get(f'https://api.{domain}/api/v3/roasts', params=params, headers=headers,
-                                  timeout=self.timeout, retry_num=self.retry_num)
+        resp = requests_tools.get(
+            f'https://api.{domain}/api/v3/roasts?chapter_id={chapter_id}&limit=50&offset=0&_update=true',
+            headers=headers,
+            timeout=self.timeout, retry_num=self.retry_num)
         if resp.status_code != 200:
             raise '请检查网络连接'
         if resp.json()['code'] != 200:

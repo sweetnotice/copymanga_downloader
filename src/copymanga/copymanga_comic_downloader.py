@@ -1,7 +1,8 @@
 import os
 from spider_toolbox import file_tools
 from concurrent.futures import ThreadPoolExecutor
-from src import drew_comment_pic, check_comic_download, remove_end_ad, config_info, pic_downloader,ai_image_processor
+from tqdm import tqdm
+from src import drew_comment_pic, check_comic_download, remove_end_ad, config_info, pic_downloader, ai_image_processor
 
 download_path = config_info.download_path
 
@@ -9,7 +10,6 @@ download_path = config_info.download_path
 class Comic_downloader:
     def __init__(self, comic_name, chapter_pic_comments):
         self.chapter_pic_comments = chapter_pic_comments
-        # self.chapter_index = start_chapter_index  # 开始下载章节序号
         self.comic_name = file_tools.format_str(comic_name)
         # 创建根目录 download目录
         file_tools.mkdir(download_path)
@@ -17,7 +17,7 @@ class Comic_downloader:
         self.workdir = os.path.join(download_path, self.comic_name)
         file_tools.mkdir(self.workdir)
 
-    def one_chapter_downloader(self, title, pic_comment_item, thread_num: 20):
+    def one_chapter_downloader(self, title, pic_comment_item, thread_num: 20, pbar):
         # 创建二级目录 话目录
         workdir = os.path.join(self.workdir, file_tools.format_str(f'{title}'))
         file_tools.mkdir(workdir)
@@ -25,17 +25,20 @@ class Comic_downloader:
             pic_urls = pic_comment_item['pic_url']
             comments = pic_comment_item['comment']
             for i, pic_url in enumerate(pic_urls, start=1):
-                f.submit(pic_downloader.download, pic_url, workdir, str(i))
+                f.submit(pic_downloader.download, pic_url, workdir, str(i), False)
             # 当前话的评论
             drew_comment_pic.main(comments, workdir, str(i + 1))
+        pbar.update()
 
     def thread_downloader(self):
+        pbar = tqdm(total=len(self.chapter_pic_comments.items()), desc='漫画下载中...')
         with ThreadPoolExecutor(config_info.down_thread_num) as f:
             for title, pic_comment_item in self.chapter_pic_comments.items():
                 f.submit(self.one_chapter_downloader,
                          title,
                          pic_comment_item,
-                         20)
+                         20,
+                         pbar)
 
     def main(self):
         self.thread_downloader()

@@ -14,18 +14,26 @@ def get_avg_resolution(img_lists):
         return width, height
 
     import random
-    random_img = random.sample(img_lists, int(len(img_lists) / 2.5))  # 随机取图片
+    random_img = random.sample(img_lists, int(len(img_lists) / 2))  # 随机取图片
     resolution_list = [get_resolution(i) for i in random_img]
     widths = [width for width, height in resolution_list]
     heights = [height for width, height in resolution_list]
 
     total_width = sum(widths)
     total_height = sum(heights)
-    avg_resolution = (int(total_width / len(random_img)), int(total_height / len(random_img)))
+    avg_width = int(total_width / len(random_img))
+    avg_height = int(total_height / len(random_img))
+    if avg_width * avg_height <= 420000:
+        pic_lv = '低,建议优化'
+    elif avg_width * avg_height <= 800000:
+        pic_lv = '中,可选优化'
+    else:
+        pic_lv = '高,无需优化'
+    avg_resolution = (avg_width, avg_height)
     # print(total_width)
     # print(total_height)
     # print(avg_resolution)
-    return avg_resolution
+    return avg_resolution, pic_lv
 
 
 def get_images(workdir):
@@ -67,8 +75,8 @@ def main(workdir, scale: int = 2, thread_num: int = 10):
     img_lists = get_images(workdir)
     avg_resolution = get_avg_resolution(img_lists)
     user_input = input(
-        f'平均像素{avg_resolution}\n'
-        f'是否需要ai优化图片,预计耗时{round(len(img_lists) / 60, 1)}分 (Y|n)>>>')
+        f'平均像素{avg_resolution[0]} {avg_resolution[1]}\n'
+        f'是否需要ai优化图片,预计耗时{int(len(img_lists) / 60)}min (Y|n)>>>')
     if user_input not in ['y', '', 'Y']:
         return
         # print(img_lists)

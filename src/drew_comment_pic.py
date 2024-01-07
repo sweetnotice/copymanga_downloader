@@ -45,9 +45,10 @@ def text_to_image(text_list, workdir, save_name,
     for i, text in enumerate(text_list):
         draw.text((0, i * fontsize), text, font=font, fill=color)
     image.save(workdir)
-    print(f'{workdir} 绘制完毕')
+    # print(f'{workdir} 绘制完毕')
     # image.show()
     return image
+
 
 def main(comment_item: dict, workdir, save_name):
     """

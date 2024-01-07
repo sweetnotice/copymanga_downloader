@@ -10,7 +10,8 @@ from src.config_info import download_path, parser_thread_num
 
 
 def del_str_special_words(text):
-    return re.sub('[^A-Za-z0-9\u4e00-\u9fff_]+', '', text)
+    text = re.sub('[^A-Za-z0-9\u4e00-\u9fff_]+', '', text)
+    return text
 
 
 def parse_input_url(url):
@@ -44,7 +45,7 @@ class Copy_manga_parser:
                                  'type': comic_type[str(chapter['type'])],
                                  'id': chapter['id']}
                 comic_chapters_list.append(comic_chapter)
-                self.all_chapter_name_id[chapter['name']] = chapter['id']
+                self.all_chapter_name_id[del_str_special_words(chapter['name'])] = chapter['id']
             self.comic_detail[group_name] = comic_chapters_list
 
         # print(self.comic_detail)

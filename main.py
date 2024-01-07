@@ -15,7 +15,7 @@ def print_art_fort():
 def main():
     print_art_fort()
     # updata.locked()
-    updata.main(37)
+    updata.main(42)
     print(
         f'下载路径: {config_info.download_path} | '
         f'解析线程数 : {config_info.parser_thread_num} | '
@@ -24,7 +24,6 @@ def main():
         url = input('输入漫画目录页网址>>>')
         # url = 'https://copymanga.site/comic/wufajujuedeta'
         # url = 'https://www.copymanga.site/comic/lianyuqingchang'
-        # domain, path_word = init_url(url)
         if 'copymanga' in url:
             copymanga_parser.Copy_manga_parser(url).main()
 

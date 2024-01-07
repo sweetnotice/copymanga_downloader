@@ -4,7 +4,7 @@ from spider_toolbox import requests_tools, file_tools
 
 
 # @vthread.pool(20)
-def download(url, workdir, name):
+def download(url, workdir, name, info=False):
     resp = requests_tools.byte_downloader(url,
                                           workdir=workdir,
                                           file_name=name,
@@ -13,10 +13,11 @@ def download(url, workdir, name):
                                           retry_num=20,
                                           retry_sleep=1)
     workdir = os.path.join(workdir, name) + '.jpg'
-    if resp:
-        print(f'[white]{workdir}下载完成[/]\n', end='')
-    else:
-        print(f'[red]{workdir} 下载出错[/]')
+    if info:
+        if resp:
+            print(f'[white]{workdir}下载完成[/]\n', end='')
+        else:
+            print(f'[red]{workdir} 下载出错[/]')
 
 
 if __name__ == '__main__':

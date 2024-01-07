@@ -7,5 +7,5 @@ PyExecJS==1.5.1
 Pygments==2.16.1
 requests==2.31.0
 rich==13.5.2
-spider-toolbox==0.0.20
+spider-toolbox==0.0.21
 tqdm==4.66.1
