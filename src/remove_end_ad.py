@@ -119,12 +119,14 @@ class Del_pic_menu:
 def main(workdir):
     global ad_pics
     ad_pics = []
-    if input('是否需要删除汉化组广告 (Y|n)>>>') not in ['y', 'Y', '']:
-        return
     # input(workdir)
     all_last_pic_2 = find_last_images(workdir, -2)
     all_last_pic_3 = find_last_images(workdir, -3)
     all_last_pic = all_last_pic_2 + all_last_pic_3
+    if len(all_last_pic) >= 90:
+        if input('是否需要删除汉化组广告 (Y|n)>>>').replace(' ', '') not in ['y', 'Y', '']:
+            return
+
     find_ad_pics(all_last_pic)
 
     if len(ad_pics) >= 3:
@@ -136,6 +138,6 @@ def main(workdir):
 
 ad_pics = []
 if __name__ == '__main__':
-    workdir = r'D:\pythoncode\代码\爬\copymanga_downloader\Download\田所同學'
+    workdir = r'D:\漫画\三角關係入門'
     # workdir = r'D:\pythoncode\代码\爬\copymanga_downloader\Download\神畫師JK與OL腐女'
     main(workdir)

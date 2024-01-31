@@ -24,8 +24,7 @@ def main():
         url = input('输入漫画目录页网址>>>')
         # url = 'https://copymanga.site/comic/wufajujuedeta'
         # url = 'https://www.copymanga.site/comic/lianyuqingchang'
-        if 'copymanga' in url:
-            copymanga_parser.Copy_manga_parser(url).main()
+        copymanga_parser.Copy_manga_parser(url).main()
 
 
 if __name__ == '__main__':

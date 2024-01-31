@@ -77,7 +77,7 @@ def main(workdir, scale: int = 2, thread_num: int = 10):
     user_input = input(
         f'平均像素{avg_resolution[0]} {avg_resolution[1]}\n'
         f'是否需要ai优化图片,预计耗时{int(len(img_lists) / 60)}min (Y|n)>>>')
-    if user_input not in ['y', '', 'Y']:
+    if user_input.replace(' ', '') not in ['y', '', 'Y']:
         return
         # print(img_lists)
 
