@@ -11,30 +11,34 @@ def parse_comment_item(comment_item: dict) -> list:
     for user_name, send in comment_item.items():
         send = send.replace("，", ",")
         if len(send) <= 45:
-            comment = f'{user_name} : {send}'
+            comment = f"{user_name} : {send}"
             comment_list.append(comment)
         elif 45 < len(send) <= 90:
-            comment = f'{user_name} : {send[:45]}'
+            comment = f"{user_name} : {send[:45]}"
             comment_list.append(comment)
-            comment = f'{send[45:]}'
+            comment = f"{send[45:]}"
             comment_list.append(comment)
     if len(comment_list) == 0:
-        comment_list.append('暂无评论...')
+        comment_list.append("暂无评论...")
     return comment_list
 
 
-def text_to_image(text_list, workdir, save_name,
-                  font_path='msyh.ttc',
-                  fontsize=16,
-                  color=(0, 0, 0),
-                  background=(255, 255, 255)):
-    workdir = os.path.join(workdir, f'{save_name}.jpg')
+def text_to_image(
+    text_list,
+    workdir,
+    save_name,
+    font_path="msyh.ttc",
+    fontsize=16,
+    color=(0, 0, 0),
+    background=(255, 255, 255),
+):
+    workdir = os.path.join(workdir, f"{save_name}.jpg")
     # 计算图片大小
     width = (fontsize - 1) * max(len(text) for text in text_list)
     height = (fontsize) * len(text_list) + 5
 
     # 创建一个空白图片，大小根据文字大小调整
-    image = Image.new('RGB', (width, height), color=background)
+    image = Image.new("RGB", (width, height), color=background)
 
     draw = ImageDraw.Draw(image)
 
@@ -58,9 +62,12 @@ def main(comment_item: dict, workdir, save_name):
     text_to_image(comment_list, workdir, save_name)
 
 
-if __name__ == '__main__':
-    comment_item = {'123123': '好看好看', 'dsadasd': '太好看了',
-                    '我是用户': 'dawoidjoawidjoiawjdoiawjdoija点击奥斯丁骄傲is大家哦爱设计的哦啊司机扫地就啊搜多久阿是降低阿斯'}
+if __name__ == "__main__":
+    comment_item = {
+        "123123": "好看好看",
+        "dsadasd": "太好看了",
+        "我是用户": "dawoidjoawidjoiawjdoiawjdoija点击奥斯丁骄傲is大家哦爱设计的哦啊司机扫地就啊搜多久阿是降低阿斯",
+    }
     comment_item = {
         "妮妮姆o": "剧情大概都能猜出来了（下一话）",
         "落叶": "剧情俗套（下一话）",
@@ -107,6 +114,6 @@ if __name__ == '__main__':
         "Lincoo": "拿捏的死死的",
         "鹿鸣幽涧": "定情信物（x",
         "Catdaren": "撩妹有一手呢",
-        "搞姛被逮着了！": "先来刺激的试验底线，再循序渐进提升好感，拿捏女孩子有一手，高，实在是太高了"
+        "搞姛被逮着了！": "先来刺激的试验底线，再循序渐进提升好感，拿捏女孩子有一手，高，实在是太高了",
     }
-    main(comment_item, workdir=r'C:\Users\Administrator\Desktop', save_name='1')
+    main(comment_item, workdir=r"C:\Users\Administrator\Desktop", save_name="1")

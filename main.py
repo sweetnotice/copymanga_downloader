@@ -15,17 +15,19 @@ def print_art_fort():
 def main():
     print_art_fort()
     # updata.locked()
-    updata.main(42)
+    updata.main(44)
     print(
-        f'下载路径: {config_info.download_path} | '
-        f'解析线程数 : {config_info.parser_thread_num} | '
-        f'下载线程数: {config_info.down_thread_num}')
+        f"下载路径: {config_info.download_path} | "
+        f"解析线程数 : {config_info.parser_thread_num} | "
+        f"下载线程数: {config_info.down_thread_num} | "
+        f"输出格式为：{config_info.down_file_format}"
+    )
     while 1:
-        url = input('输入漫画目录页网址>>>')
+        url = input("\n输入漫画目录页网址>>>")
         # url = 'https://copymanga.site/comic/wufajujuedeta'
         # url = 'https://www.copymanga.site/comic/lianyuqingchang'
         copymanga_parser.Copy_manga_parser(url).main()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

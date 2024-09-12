@@ -53,7 +53,7 @@ def find_last_images(folder_path, last_num=-2):
 
     for root, dirs, files in os.walk(folder_path):
         if len(files) > -last_num:
-            files = sorted(files, key=lambda x: int(x.split('.')[0]))
+            files = sorted(files, key=lambda x: int(x.split(".")[0]))
             second_last_image = files[last_num]
             image_paths.append(os.path.join(root, second_last_image))
     return image_paths
@@ -61,8 +61,7 @@ def find_last_images(folder_path, last_num=-2):
 
 def contrast_pic(pic1, pic2):
     # 图片对比
-    if os.path.isfile(pic1) and os.path.isfile(pic2) \
-            and pic2 not in ad_pics:
+    if os.path.isfile(pic1) and os.path.isfile(pic2) and pic2 not in ad_pics:
         similarity = classify_hist_with_split(pic1, pic2)
         # cv_num += 1
         if similarity >= 0.83:
@@ -79,9 +78,9 @@ def find_ad_pics(pics):
     futures = []
     with ThreadPoolExecutor(15) as f:
         for pic1 in pics:
-            for pic2 in pics[pics.index(pic1) + 1:]:
+            for pic2 in pics[pics.index(pic1) + 1 :]:
                 futures.append(f.submit(contrast_pic, pic1, pic2))
-        pbar = tqdm(total=len(futures), desc='识别汉化组广告中...')
+        pbar = tqdm(total=len(futures), desc="识别汉化组广告中...")
         for future in as_completed(futures):
             # a = future.result()
             pbar.update()
@@ -90,13 +89,13 @@ def find_ad_pics(pics):
 class Del_pic_menu:
     def __init__(self, ad_pics):
         self.ad_pics = ad_pics
-        self.desktop_ad_path = os.path.join(file_tools.get_path(desktop=True), '广告')
+        self.desktop_ad_path = os.path.join(file_tools.get_path(desktop=True), "广告")
 
     def del_ad_pic(self):
         ad_lists = []
         # 从桌面文件夹中获取文件 文件夹里的文件名就是ad_pics中的序号
         for ad_pic_list in os.listdir(self.desktop_ad_path):
-            ad_pic_list = int(ad_pic_list.replace('.jpg', ''))
+            ad_pic_list = int(ad_pic_list.replace(".jpg", ""))
             ad_lists.append(self.ad_pics[ad_pic_list])
         for ad_pic in ad_lists:
             os.remove(ad_pic)
@@ -105,15 +104,15 @@ class Del_pic_menu:
     def save_pic_in_desktop(self):
         file_tools.mkdir(self.desktop_ad_path)
         for i, ad_pic in enumerate(self.ad_pics):
-            shutil.copy(ad_pic, os.path.join(self.desktop_ad_path, f'{i}.jpg'))
+            shutil.copy(ad_pic, os.path.join(self.desktop_ad_path, f"{i}.jpg"))
 
     def main(self):
-        print(f'找到[red]{len(self.ad_pics)}[/]张广告图')
+        print(f"找到[red]{len(self.ad_pics)}[/]张广告图")
         self.save_pic_in_desktop()
-        user_choice = input('已保存在桌面  删除其中误判部分后回车>>>')
-        if user_choice in ['Y', 'y', '']:
+        user_choice = input("已保存在桌面  删除其中误判部分后回车>>>")
+        if user_choice in ["Y", "y", ""]:
             self.del_ad_pic()
-            print('删除成功!')
+            print("删除成功!")
 
 
 def main(workdir):
@@ -123,8 +122,12 @@ def main(workdir):
     all_last_pic_2 = find_last_images(workdir, -2)
     all_last_pic_3 = find_last_images(workdir, -3)
     all_last_pic = all_last_pic_2 + all_last_pic_3
-    if len(all_last_pic) >= 90:
-        if input('是否需要删除汉化组广告 (Y|n)>>>').replace(' ', '') not in ['y', 'Y', '']:
+    if len(all_last_pic) >= 50 * 2:
+        if input("是否需要删除汉化组广告 (Y|n)>>>").replace(" ", "") not in [
+            "y",
+            "Y",
+            "",
+        ]:
             return
 
     find_ad_pics(all_last_pic)
@@ -132,12 +135,12 @@ def main(workdir):
     if len(ad_pics) >= 3:
         Del_pic_menu(ad_pics).main()
     else:
-        print('没发现广告')
+        print("没发现广告")
     print()
 
 
 ad_pics = []
-if __name__ == '__main__':
-    workdir = r'D:\漫画\三角關係入門'
+if __name__ == "__main__":
+    workdir = r"D:\漫画\三角關係入門"
     # workdir = r'D:\pythoncode\代码\爬\copymanga_downloader\Download\神畫師JK與OL腐女'
     main(workdir)

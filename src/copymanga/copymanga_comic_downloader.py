@@ -1,29 +1,41 @@
 import os
+import shutil
 from spider_toolbox import file_tools
 from concurrent.futures import ThreadPoolExecutor
 from tqdm import tqdm
-from src import drew_comment_pic, check_comic_download, remove_end_ad, config_info, pic_downloader, ai_image_processor
+from src import (
+    drew_comment_pic,
+    check_comic_download,
+    remove_end_ad,
+    config_info,
+    pic_downloader,
+    ai_image_processor,
+)
+from src.pack_comic import pack_cbz
 
 download_path = config_info.download_path
+down_file_format = config_info.down_file_format
 
 
 class Comic_downloader:
     def __init__(self, comic_name, chapter_pic_comments):
         self.chapter_pic_comments = chapter_pic_comments
         self.comic_name = file_tools.format_str(comic_name)
+        self.temp_dir = os.getcwd()  # 临时文件夹，当前目录
+        file_tools.mkdir(self.temp_dir)  # 创建临时漫画文件夹
         # 创建根目录 download目录
         file_tools.mkdir(download_path)
         # 一级目录 书目录
-        self.workdir = os.path.join(download_path, self.comic_name)
+        self.workdir = os.path.join(self.temp_dir, self.comic_name)
         file_tools.mkdir(self.workdir)
 
-    def one_chapter_downloader(self, title, pic_comment_item, thread_num: 20, pbar):
+    def one_chapter_downloader(self, title, pic_comment_item, thread_num: int, pbar):
         # 创建二级目录 话目录
-        workdir = os.path.join(self.workdir, file_tools.format_str(f'{title}'))
+        workdir = os.path.join(self.workdir, file_tools.format_str(title))
         file_tools.mkdir(workdir)
         with ThreadPoolExecutor(thread_num) as f:
-            pic_urls = pic_comment_item['pic_url']
-            comments = pic_comment_item['comment']
+            pic_urls = pic_comment_item["pic_url"]
+            comments = pic_comment_item["comment"]
             for i, pic_url in enumerate(pic_urls, start=1):
                 f.submit(pic_downloader.download, pic_url, workdir, str(i), False)
             # 当前话的评论
@@ -31,14 +43,18 @@ class Comic_downloader:
         pbar.update()
 
     def thread_downloader(self):
-        pbar = tqdm(total=len(self.chapter_pic_comments.items()), desc='漫画下载中...')
+        pbar = tqdm(total=len(self.chapter_pic_comments.items()), desc="漫画下载中...")
         with ThreadPoolExecutor(config_info.down_thread_num) as f:
             for title, pic_comment_item in self.chapter_pic_comments.items():
-                f.submit(self.one_chapter_downloader,
-                         title,
-                         pic_comment_item,
-                         20,
-                         pbar)
+                f.submit(self.one_chapter_downloader, title, pic_comment_item, 20, pbar)
+
+    def output_(self):
+        if down_file_format == "jpg":
+            shutil.move(self.workdir, download_path)
+        elif down_file_format == "cbz":
+            pack_cbz(self.workdir, f"{self.workdir}.cbz")
+            shutil.move(f"{self.workdir}.cbz", download_path)
+            shutil.rmtree(self.workdir)
 
     def main(self):
         self.thread_downloader()
@@ -48,10 +64,16 @@ class Comic_downloader:
         remove_end_ad.main(self.workdir)
         # ai优化
         ai_image_processor.main(self.workdir)
+        self.output_()
 
 
-if __name__ == '__main__':
-    ids = {'第01话': 'eec043de-f106-11e9-aab3-00163e0ca5bd', '第02话': '30bf03f4-170b-11ea-b69c-00163e0ca5bd',
-           '第03话': '82b51cea-273a-11ea-a0fc-00163e0ca5bd', '第04话': '81ef6c3c-449c-11ea-9805-00163e0ca5bd',
-           '第05话': '8e1b3b70-57f3-11ea-ba80-00163e0ca5bd', '情人节特别篇': '8e1b761c-57f3-11ea-ba80-00163e0ca5bd'}
+if __name__ == "__main__":
+    ids = {
+        "第01话": "eec043de-f106-11e9-aab3-00163e0ca5bd",
+        "第02话": "30bf03f4-170b-11ea-b69c-00163e0ca5bd",
+        "第03话": "82b51cea-273a-11ea-a0fc-00163e0ca5bd",
+        "第04话": "81ef6c3c-449c-11ea-9805-00163e0ca5bd",
+        "第05话": "8e1b3b70-57f3-11ea-ba80-00163e0ca5bd",
+        "情人节特别篇": "8e1b761c-57f3-11ea-ba80-00163e0ca5bd",
+    }
     Comic_downloader(ids).main()
