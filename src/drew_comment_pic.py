@@ -23,35 +23,60 @@ def parse_comment_item(comment_item: dict) -> list:
     return comment_list
 
 
-def text_to_image(
-    text_list,
-    workdir,
-    save_name,
-    font_path="msyh.ttc",
-    fontsize=16,
-    color=(0, 0, 0),
-    background=(255, 255, 255),
-):
-    workdir = os.path.join(workdir, f"{save_name}.jpg")
-    # 计算图片大小
-    width = (fontsize - 1) * max(len(text) for text in text_list)
-    height = (fontsize) * len(text_list) + 5
+def create_text_image(text_list, font_size=16,
+                      text_height_padding=2,
+                      text_color=(0, 0, 0),
+                      padding=10,
+                      font_path='simhei.ttf'):
+    """
+    Parameters
+    ----------
+    text_list
+    font_size
+    text_height_padding :文本高度间隙
+    text_color
+    padding
+    font_path
 
-    # 创建一个空白图片，大小根据文字大小调整
-    image = Image.new("RGB", (width, height), color=background)
+    Returns
+    -------
 
-    draw = ImageDraw.Draw(image)
+    """
+    # 设置字体
+    try:
+        font = ImageFont.truetype(font_path, font_size)
+    except IOError:
+        # print("字体文件未找到，使用默认字体")
+        font = ImageFont.load_default()
 
-    # 使用PIL的ImageFont创建字体对象
-    font = ImageFont.truetype(font_path, fontsize)
+    # 计算图像尺寸
+    max_width = 0
+    total_height = 0
+    for text in text_list:
+        bbox = font.getbbox(text)  # 获取当前行的边界框
+        text_width = bbox[2] - bbox[0]
+        line_height = bbox[3] - bbox[1]
+        if text_width > max_width:
+            max_width = text_width
+        total_height += line_height + text_height_padding
 
-    # 遍历列表中的每个元素，并将其绘制到图片上
-    for i, text in enumerate(text_list):
-        draw.text((0, i * fontsize), text, font=font, fill=color)
-    image.save(workdir)
-    # print(f'{workdir} 绘制完毕')
-    # image.show()
-    return image
+    image_width = max_width + 2 * padding  # 左右各加一些内边距
+    image_height = total_height + 2 * padding  # 上下各加一些内边距
+
+    # 创建空白图像
+    img = Image.new('RGB', (image_width, image_height), color='white')
+    draw = ImageDraw.Draw(img)
+
+    # 绘制文本
+    y = padding  # 起始y坐标
+    for text in text_list:
+        bbox = font.getbbox(text)
+        text_width = bbox[2] - bbox[0]
+        x = padding
+        draw.text((x, y), text, fill=text_color, font=font)
+        y += (bbox[3] - bbox[1]) + text_height_padding  # 下一行
+
+    return img
 
 
 def main(comment_item: dict, workdir, save_name):
@@ -59,7 +84,10 @@ def main(comment_item: dict, workdir, save_name):
     :param comment_item: {用户名:评论}
     """
     comment_list = parse_comment_item(comment_item)
-    text_to_image(comment_list, workdir, save_name)
+    comment_img = create_text_image(comment_list)
+    save_path = os.path.join(workdir, f"{save_name}.jpg")
+    # comment_img.show()
+    comment_img.save(save_path)
 
 
 if __name__ == "__main__":
@@ -116,4 +144,4 @@ if __name__ == "__main__":
         "Catdaren": "撩妹有一手呢",
         "搞姛被逮着了！": "先来刺激的试验底线，再循序渐进提升好感，拿捏女孩子有一手，高，实在是太高了",
     }
-    main(comment_item, workdir=r"C:\Users\Administrator\Desktop", save_name="1")
+    main(comment_item, workdir=r"C:\Users\Arc\Desktop", save_name="1")

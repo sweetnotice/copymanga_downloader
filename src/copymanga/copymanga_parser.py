@@ -93,7 +93,7 @@ class Copy_manga_parser:
         # 获取一话评论  {用户名:评论}
         comment_items = {}
         comment_detail = self.copy_manga_api.get_chapter_comment(chapter_id)
-        # comment_detail.reverse()  # 按照评论发布顺序排列  评论者似乎是从下往上的 楼上全部变成了楼下
+        comment_detail.reverse()  # 按照评论发布顺序排列  评论者似乎是从下往上的 楼上全部变成了楼下
         for comment_item in comment_detail:
             comment_user_name = comment_item["user_name"]
             comment_data = comment_item["comment"]
