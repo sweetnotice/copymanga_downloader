@@ -109,7 +109,7 @@ class Del_pic_menu:
     def main(self):
         print(f"找到[red]{len(self.ad_pics)}[/]张广告图")
         self.save_pic_in_desktop()
-        user_choice = input("已保存在桌面  删除其中误判部分后回车>>>")
+        user_choice = input("已保存在桌面  删除其中[red]误判[/]部分后回车>>>")
         if user_choice in ["Y", "y", ""]:
             self.del_ad_pic()
             print("删除成功!")
@@ -122,13 +122,6 @@ def main(workdir):
     all_last_pic_2 = find_last_images(workdir, -2)
     all_last_pic_3 = find_last_images(workdir, -3)
     all_last_pic = all_last_pic_2 + all_last_pic_3
-    if len(all_last_pic) >= 50 * 2:
-        if input("是否需要删除汉化组广告 (Y|n)>>>").replace(" ", "") not in [
-            "y",
-            "Y",
-            "",
-        ]:
-            return
 
     find_ad_pics(all_last_pic)
 

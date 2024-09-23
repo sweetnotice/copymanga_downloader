@@ -23,7 +23,7 @@ def parse_comment_item(comment_item: dict) -> list:
     return comment_list
 
 
-def create_text_image(text_list, font_size=16,
+def create_text_image(text_list, font_size=25,
                       text_height_padding=2,
                       text_color=(0, 0, 0),
                       padding=10,
@@ -144,4 +144,4 @@ if __name__ == "__main__":
         "Catdaren": "撩妹有一手呢",
         "搞姛被逮着了！": "先来刺激的试验底线，再循序渐进提升好感，拿捏女孩子有一手，高，实在是太高了",
     }
-    main(comment_item, workdir=r"C:\Users\Arc\Desktop", save_name="1")
+    main(comment_item, workdir=r"C:\Users\Arc\Desktop", save_name="2")

@@ -1,25 +1,25 @@
 import os
-from rich import print
-from spider_toolbox import requests_tools, file_tools
+import requests
+from spider_toolbox import requests_tools
 
 
-# @vthread.pool(20)
 def download(url, workdir, name, info=False):
-    resp = requests_tools.byte_downloader(
-        url,
+    downloader(
+        url=url,
         workdir=workdir,
         file_name=name,
         file_type="jpg",
-        timeout=3,
-        retry_num=20,
-        retry_sleep=1,
     )
-    workdir = os.path.join(workdir, name) + ".jpg"
-    if info:
-        if resp:
-            print(f"[white]{workdir}下载完成[/]\n", end="")
-        else:
-            print(f"[red]{workdir} 下载出错[/]")
+
+
+@requests_tools.retry_on_exception(10)
+def downloader(url, file_name, file_type, workdir):
+    file_type = file_type.replace('.', '')
+    workdir = os.path.join(workdir, file_name) + '.' + file_type
+    resp = requests.get(url)
+    if resp:
+        with open(workdir, 'wb') as f:
+            f.write(resp.content)
 
 
 if __name__ == "__main__":
