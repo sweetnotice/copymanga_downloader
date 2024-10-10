@@ -67,4 +67,4 @@ def pack_cbz(folder_path, output_zip_path):
 
 
 if __name__ == '__main__':
-    pack_cbz(r'E:\漫画\三角關係入門', r'E:\漫画\1.cbz')
+    pack_cbz(r'D:\pythoncode\代码\爬\copymanga_downloader\聖癖✟櫻之丘', r'D:\pythoncode\代码\爬\copymanga_downloader\聖癖✟櫻之丘.cbz')

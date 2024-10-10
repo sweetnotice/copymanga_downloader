@@ -9,3 +9,5 @@ idea/
 *.pyc
 *.spec
 .idea/
+config.json
+打包程序.py

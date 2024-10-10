@@ -1,5 +1,4 @@
 import re
-import os
 from concurrent.futures import ThreadPoolExecutor
 from rich import print
 from tqdm import tqdm
@@ -7,6 +6,7 @@ from urllib.parse import urlparse
 from src.copymanga import copymanga_api, copymanga_comic_downloader
 from src.config_info import download_path, parser_thread_num
 from spider_toolbox.file_tools import format_str
+from src.check_comic_download import check_is_down
 
 
 def del_str_special_words(text):
@@ -61,16 +61,6 @@ class Copy_manga_parser:
                 print(f'{i}    {detail_info["name"]}    {detail_info["type"]}')
                 i += 1
 
-    def is_downloaded(self):
-        if self.comic_name in os.listdir(download_path):
-            print("[red]已经下载过了,请问是否还要继续?(y/N)[/]", end="")
-            choice = input("")
-            if choice in ["Y", "y"]:
-                return True
-            elif choice in ["N", "n", ""]:
-                return False
-        return True
-
     def user_choose(self) -> dict:
         # 让用户输入下载范围 {'第一话':'id'}
         user_input = input("\n0:全部下载\n数字-数字:下载指定话>>>")
@@ -111,7 +101,7 @@ class Copy_manga_parser:
     def get_chapters_pic_comment(self, down_chapter_infos: dict):
         # 获取每话图片地址和评论 {序号_话名:{pic_url:[图片链接],comment:{用户名:评论}}}
         def get_chapters_pic_comment_func(
-            chapter_id, index, chapter_title, pic_comments_dict: dict, pbar
+                chapter_id, index, chapter_title, pic_comments_dict: dict, pbar
         ):
             pic_comments_dict[f"{index}_{chapter_title}"] = {
                 "pic_url": self.get_pic(chapter_id),
@@ -137,7 +127,7 @@ class Copy_manga_parser:
     def main(self):
         self.parse_comic_detail()
         self.show_text()
-        if self.is_downloaded():
+        if check_is_down(self.comic_name, download_path):
             # 需要下载的话合集 {name:id}
             down_chapter_infos = self.user_choose()
             chapter_pic_comments = self.get_chapters_pic_comment(down_chapter_infos)

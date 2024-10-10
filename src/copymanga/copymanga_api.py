@@ -22,8 +22,7 @@ class Copymange_api:
             headers=headers,
             timeout=timeout
         )
-        if resp.status_code != 200:
-            raise "请检查网络连接"
+        resp.raise_for_status()
         comic_name = re.search('<h6 title="(.*?)">.*?</h6>', resp.text).group(1)
         return comic_name
 
@@ -34,8 +33,7 @@ class Copymange_api:
             headers=headers,
             timeout=timeout,
         )
-        if resp.status_code != 200:
-            raise "请检查网络连接"
+        resp.raise_for_status()
         if resp.json()["code"] != 200:
             raise resp.json()["message"]
         encrypt_data = resp.json()["results"]
@@ -50,8 +48,7 @@ class Copymange_api:
             headers=headers,
             timeout=timeout,
         )
-        if resp.status_code != 200:
-            raise "请检查网络连接"
+        resp.raise_for_status()
         encrypt_data = re.search(
             '<div.class="imageData".contentKey="(.*?)"></div>', resp.text
         ).group(1)
@@ -73,8 +70,7 @@ class Copymange_api:
             headers=headers,
             timeout=timeout,
         )
-        if resp.status_code != 200:
-            raise "请检查网络连接"
+        resp.raise_for_status()
         if resp.json()["code"] != 200:
             raise resp.json()["message"]
         return resp.json()["results"]["list"]

@@ -78,7 +78,7 @@ def find_ad_pics(pics):
     futures = []
     with ThreadPoolExecutor(15) as f:
         for pic1 in pics:
-            for pic2 in pics[pics.index(pic1) + 1 :]:
+            for pic2 in pics[pics.index(pic1) + 1:]:
                 futures.append(f.submit(contrast_pic, pic1, pic2))
         pbar = tqdm(total=len(futures), desc="识别汉化组广告中...")
         for future in as_completed(futures):
@@ -109,7 +109,8 @@ class Del_pic_menu:
     def main(self):
         print(f"找到[red]{len(self.ad_pics)}[/]张广告图")
         self.save_pic_in_desktop()
-        user_choice = input("已保存在桌面  删除其中[red]误判[/]部分后回车>>>")
+        print("已保存在桌面  删除其中[red]误判[/]部分后回车>>>", end='')
+        user_choice = input()
         if user_choice in ["Y", "y", ""]:
             self.del_ad_pic()
             print("删除成功!")
